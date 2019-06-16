@@ -83,9 +83,6 @@
                 <br>
 
                 <a class="button button1" :href="'user-edit.html?id='+usuario.id">Gerenciar Dados</a>
-                <!-- 
-
-                <button class="btn btn-danger" type="button" @click="deleteUser">Excluir </button> -->
             </div>
 
 
@@ -198,10 +195,10 @@
         var app = new Vue({
             el: "#app",
             data: {
-                url: "http://localhost:8080/rest_persistence/api/users",
+                url: "http://localhost:8080/api/users",
                 usuario: {},
                 flag: false,
-                url2: "http://localhost:8080/rest_persistence/api/postfilmes",
+                url2: "http://localhost:8080/api/posts",
                 postfilmes: [],
 
                 usuarios: [],
@@ -251,9 +248,6 @@
                     console.log(error);
                 });
 
-
-
-
             },
             methods: {
                 logout() {
@@ -274,10 +268,10 @@
             }
         });
 
-        var app2 = new Vue({
+        var app2 = new Vue({ /*Adicionar Postagens*/
             el: "#app2",
             data: {
-                url3: "http://localhost:8080/rest_persistence/api/postfilmes",
+                url3: "http://localhost:8080/api/postfilmes",
                 idautor: null,
                 topico: null,
                 descricao: null,
@@ -315,14 +309,7 @@
                 }
             }
         });
-
-
     </script>
-
-
-
-
-
 
 <footer>
     <div class="centered clearfix">

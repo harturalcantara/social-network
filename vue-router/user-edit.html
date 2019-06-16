@@ -5,10 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Atualizar</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/estilos.css">
-    <link rel="stylesheet" href="front/assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="js/jquery.min.js"></script>
     <script src="js/popper.min.js"></script>
@@ -45,9 +44,6 @@
                         <input class="form-control" type="text" v-model="usuario.password"
                             :value="usuario.password">
                     </div>
-
-
-
 
                     <div class="form-group">
                             <label for="password">Nome: </label>
@@ -99,7 +95,7 @@
             var app = new Vue({
                 el: "#app",
                 data: {
-                    url: "http://localhost:8080/rest_persistence/api/users",
+                    url: "http://localhost:8080/api/users",
                     usuario: {},
                     file: null,
                     usuarios: [],
@@ -111,17 +107,17 @@
                     var currentUrl = window.location.href;
                     var id = new URL(currentUrl).searchParams.get("id");
 
+               
+
                     if (this.$session.exists()) {
                         this.flagSair = true;
                         this.flagLogin = false;
                     }
                     vm = this;
+                    
                     axios.get(this.url).then(function (r) {
-                        if (r.data.user.length > 1) {
-                            vm.usuarios = r.data.user;
-                        } else {
-                            vm.usuarios = r.data;
-                        }
+                        vm.usuarios = r.data;
+
                     }).catch(function (error) {
                         console.log(error);
                     });
@@ -137,12 +133,14 @@
                 },
                 methods: {
                     submit() {
+                        var currentUrl = window.location.href;
+                         var id = new URL(currentUrl).searchParams.get("id");
                         let formData = new FormData();
                         formData.append('image', this.file);
                         formData.append('username', this.usuario.username);
                         formData.append('password', this.usuario.password);
-                        formData.append('nomecompleto', this.usuario.email);
-                        formData.append('email', this.usuario.nomecompleto);
+                        formData.append('email', this.usuario.email);
+                        formData.append('nomecompleto', this.usuario.nomecompleto);
                         formData.append('endereco', this.usuario.endereco);
                         formData.append('cidade', this.usuario.cidade);
                         formData.append('estado', this.usuario.estado);
@@ -159,7 +157,9 @@
                             }
                         ).then(function (r) {
                             console.log(r.data);
-                            window.location.replace("index.html");
+                            console.log(r.data.id);
+                            alert("Dados atualizados! id");
+                            window.location.replace("userperfil-view.html?id=" + r.data.id);
                         }).catch(function (error) {
                             console.log(erro);
                         });

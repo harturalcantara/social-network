@@ -120,11 +120,11 @@
               
             <div class="divScroll">
                 <div v-for="top in postfilmes">
-                    oii
+                    
                      <div v-for="user in usuarios">
-                       oi
+                       
                         <div v-if="user.id == top.idAutor"> 
-                            XXX
+                            
                             <div v-if="top.idcategoria == 1">
                                 <div class="mini_divScroll_eff">
 
@@ -133,7 +133,7 @@
                                          
                                     <div class="mini_divScroll" style="margin-bottom: 0px;">
 
-                                        <h4>Identificação do Autor: <a :href="'user-view.html?id='+top.idAutor">
+                                        <h4>Autor: <a :href="'user-view.html?id='+top.idAutor">
                                                 {{user.username}}</a> (Clique
                                             para
                                             ver
@@ -169,7 +169,7 @@
 
                 <h3 style="margin-left: 30px"> <b> Adicione uma postagem </b></h3> <br>
 
-                
+                <!--  -->
                 <div class="form-group">
                     <label for="idautor">idAutor: </label>
                     <input class="form-control" type="text" v-model="idautor">

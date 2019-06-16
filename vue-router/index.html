@@ -35,8 +35,8 @@
 
         <!--  -->
 
-        <div  class="topnav">
-            <a class="active" href="index.html">Home</a>            
+        <div class="topnav">
+            <a class="active" href="index.html">Home</a>
             <a v-if="flagSair" href="catAnimes.html" class="nav-link">Animes</a>
             <a v-if="flagSair" href="catSeries.html" class="nav-link">Séries</a>
             <a v-if="flagSair" href="catFilmes.html" class="nav-link">Filmes</a>
@@ -44,7 +44,8 @@
             <a v-if="flagSair" href="catModaGeek.html" class="nav-link">Moda Geek</a>
             <a v-if="flagSair" href="catNoticias.html" class="nav-link">Noticias</a>
             <a v-if="flagSair" href="catTecnologias.html" class="nav-link">Tecnologias</a>
-
+            <a v-if="flagSair" href="catTecnologias.html" class="nav-link">WorldGraphsGeek</a>
+            <a v-if="flagSair" href="catWorldGraphsGeek.html" class="nav-link">Conhecer Pessoas</a>
             <div v-if="flagSair" class="search-container">
                 <form action="/action_page.php">
 
@@ -59,7 +60,7 @@
 
         <div class="slideshow-containerr">
             <br>
-            
+
             <h1>Bem vindo a GraphsGeek</h1>
             <hr>
             <h4>Descrição:</h4>
@@ -72,130 +73,110 @@
                 tópicos
                 discursivos para diferentes perfis Geek.
             </p><br>
-        
-        <div class="slideshow-containerr">
 
-            <div class="mySlidess fade">
-                <div class="numbertext">1 / 3</div>
-                <img src="/img/filmes2.jpg" style="width:100%">
-                
+            <div class="slideshow-containerr">
+
+                <div class="mySlidess fade">
+                    <div class="numbertext">1 / 3</div>
+                    <img src="/img/filmes2.jpg" style="width:100%">
+
+                </div>
+
+                <div class="mySlidess fade">
+                    <div class="numbertext">2 / 3</div>
+                    <img src="/img/filmes1.png" style="width:100%">
+
+                </div>
+
+                <div class="mySlidess fade">
+                    <div class="numbertext">3 / 3</div>
+                    <img src="/img/filmes3.jpg" style="width:100%">
+
+                </div>
+
+            </div>
+            <br>
+
+            <div style="text-align:center">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
             </div>
 
-            <div class="mySlidess fade">
-                <div class="numbertext">2 / 3</div>
-                <img src="/img/filmes1.png" style="width:100%">
-                
+
+
+            <div class="slideshow-container">
+                <div class="mySlides1">
+                    <img src="/img/serie2.jpg" style="width:100%">
+                </div>
+
+                <div class="mySlides1">
+                    <img src="/img/serie1.jpg" style="width:100%">
+                </div>
+
+                <div class="mySlides1">
+                    <img src="/img/serie3.jpg" style="width:100%">
+                </div>
+
+                <a class="prev" onclick="plusSlides(-1, 0)">&#10094;</a>
+                <a class="next" onclick="plusSlides(1, 0)">&#10095;</a>
             </div>
 
-            <div class="mySlidess fade">
-                <div class="numbertext">3 / 3</div>
-                <img src="/img/filmes3.jpg" style="width:100%">
-                
-            </div>
-
-        </div>
-        <br>
-
-        <div style="text-align:center">
-            <span class="dot"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
-        </div>
 
 
 
-        <div class="slideshow-container">
-            <div class="mySlides1">
-                <img src="/img/serie2.jpg" style="width:100%">
-            </div>
-
-            <div class="mySlides1">
-                <img src="/img/serie1.jpg" style="width:100%">
-            </div>
-
-            <div class="mySlides1">
-                <img src="/img/serie3.jpg" style="width:100%">
-            </div>
-
-            <a class="prev" onclick="plusSlides(-1, 0)">&#10094;</a>
-            <a class="next" onclick="plusSlides(1, 0)">&#10095;</a>
-        </div>
-
-
-
-
-        <br>
-        <div class="slideshow-containerr">
+            <br>
+            <div class="slideshow-containerr">
 
                 <p class="recuo">
-                        A Graphs Geek terá como um propósito de trazer o universo Geek(nerd) para a vida das pessoas
-                        Queremos tornar este universo acessivel para todos de um modo fácil e funcional.
-                        O universo Geek é composto por diferentes veiculos, como filmes, quadrinho, animes, series,
-                        jogos e
-                        jogos. A Graphs Geek adota todas as franquias criadas, por isso,teremos um acervo variado de
-                        tópicos
-                        discursivos para diferentes perfis Geek.
-            
-                    </p><br>
+                    A Graphs Geek terá como um propósito de trazer o universo Geek(nerd) para a vida das pessoas
+                    Queremos tornar este universo acessivel para todos de um modo fácil e funcional.
+                    O universo Geek é composto por diferentes veiculos, como filmes, quadrinho, animes, series,
+                    jogos e
+                    jogos. A Graphs Geek adota todas as franquias criadas, por isso,teremos um acervo variado de
+                    tópicos
+                    discursivos para diferentes perfis Geek.
 
-        </div>
-      
-        <div class="slideshow-container">
-            <div class="mySlides2">
-                <img src="/img/filmes3.jpg" style="width:100%">
+                </p><br>
+
             </div>
 
-            <div class="mySlides2">
-                <img src="/img/filmes3.jpg" style="width:100%">
+            <div class="slideshow-container">
+                <div class="mySlides2">
+                    <img src="/img/filmes3.jpg" style="width:100%">
+                </div>
+
+                <div class="mySlides2">
+                    <img src="/img/filmes3.jpg" style="width:100%">
+                </div>
+
+                <div class="mySlides2">
+                    <img src="/img/filmes1.png" style="width:100%">
+                </div>
+
+                <a class="prev" onclick="plusSlides(-1, 1)">&#10094;</a>
+                <a class="next" onclick="plusSlides(1, 1)">&#10095;</a>
             </div>
 
-            <div class="mySlides2">
-                <img src="/img/filmes1.png" style="width:100%">
-            </div>
 
-            <a class="prev" onclick="plusSlides(-1, 1)">&#10094;</a>
-            <a class="next" onclick="plusSlides(1, 1)">&#10095;</a>
-        </div>
-
-        
-        <br>
-        <div class="slideshow-containerr">
+            <br>
+            <div class="slideshow-containerr">
 
                 <p class="recuo">
-                        A Graphs Geek terá como um propósito de trazer o universo Geek(nerd) para a vida das pessoas
-                        Queremos tornar este universo acessivel para todos de um modo fácil e funcional.
-                        O universo Geek é composto por diferentes veiculos, como filmes, quadrinho, animes, series,
-                        jogos e
-                        jogos. A Graphs Geek adota todas as franquias criadas, por isso,teremos um acervo variado de
-                        tópicos
-                        discursivos para diferentes perfis Geek.
-            
-                    </p><br>
+                    A Graphs Geek terá como um propósito de trazer o universo Geek(nerd) para a vida das pessoas
+                    Queremos tornar este universo acessivel para todos de um modo fácil e funcional.
+                    O universo Geek é composto por diferentes veiculos, como filmes, quadrinho, animes, series,
+                    jogos e
+                    jogos. A Graphs Geek adota todas as franquias criadas, por isso,teremos um acervo variado de
+                    tópicos
+                    discursivos para diferentes perfis Geek.
 
+                </p><br>
+
+            </div>
         </div>
     </div>
 
-
-        <!--  
-
-            <a v-if="flagSair" href="user-insert.html" class="btn btn-primary" >Inserir</a>
-            <button v-if="flagSair" class="btn btn-danger" type="button" @click="logout">Sair</button>
-            <a v-if="flagLogin" href="login.html" class="btn btn-warning">Login</a>
-
-            <h3>Lista de Usuários</h3>
-            <ul>
-                <li v-for="usuario in usuarios">
-                    <a :href="'user-view.html?id='+usuario.id" style="color: black" >{{usuario.username}}</a>
-                </li>
-            </ul>
-
-        </div>
-        -->
-
-
-
-
-    </div>
     <footer>
         <div class="centered clearfix">
             <div class="footer-logo">
@@ -235,21 +216,21 @@
                 </div>
             </div>
 
-            <div class="footer-contact" >
+            <div class="footer-contact">
                 <h3><a href="">GraphsGeek</a></h3>
-            
+
                 <p><a href="">Conectando o mundo!</a></p>
             </div>
 
             <div class="footer-navigation">
                 <div class="footer-links-holder">
-                    
+
                     <ul class="footer-links">
-                            <h3><a href="">Endereço</a></h3>
-                            <p><a href="mailto:">graphsgeek@email.com</a></p>
-                            <p><a href="tel:">+55-(88)9890-1022</a></p>
-                            <p><a href="">286 Fake St<br />Fake, PA 11111</a></p>
-                        
+                        <h3><a href="">Endereço</a></h3>
+                        <p><a href="mailto:">graphsgeek@email.com</a></p>
+                        <p><a href="tel:">+55-(88)9890-1022</a></p>
+                        <p><a href="">286 Fake St<br />Fake, PA 11111</a></p>
+
                     </ul>
                 </div>
 
@@ -257,7 +238,7 @@
                     <h3><a href="">Sobre-nos</a></h3>
                     <ul class="footer-links">
                         <li><a href="">Desenvolvedores</a></li>
-                        <li><a href="">Futuros projetos</a></li>                       
+                        <li><a href="">Futuros projetos</a></li>
                     </ul>
                 </div>
 
@@ -267,7 +248,7 @@
                         <li><a href="">facebook/graphsgeek.com</a></li>
                         <li><a href="">instagram/graphsgeek.com</a></li>
                         <li><a href="">youtube/graphsgeek.com</a></li>
-                        
+
                     </ul>
                 </div>
 
@@ -283,7 +264,7 @@
         var app = new Vue({
             el: "#app",
             data: {
-                url: "http://localhost:8080/rest_persistence/api/users",
+                url: "http://localhost:8080/api/users",
                 usuarios: [],
                 flagSair: false,
                 flagLogin: true,
@@ -292,7 +273,7 @@
             created() {
                 var ida = this.$session.get("id");
                 this.teste = ida;
-                console.log(this.teste);
+                //console.log(this.teste);
 
                 if (this.$session.exists()) {
                     this.flagSair = true;
@@ -300,11 +281,7 @@
                 }
                 vm = this;
                 axios.get(this.url).then(function (r) {
-                    if (r.data.user.length > 1) {
-                        vm.usuarios = r.data.user;
-                    } else {
                         vm.usuarios = r.data;
-                    }
                 }).catch(function (error) {
                     console.log(error);
                 });

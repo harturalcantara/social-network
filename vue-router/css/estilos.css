@@ -1,4 +1,3 @@
-
 textarea {
     width: 100%;
     height: 200px;
@@ -10,6 +9,12 @@ textarea {
     resize: none;
 }
  
+.alert {
+  padding: 20px;
+  background-color: #f44336;
+  color: white;
+}
+
 /*Desenvolvido por Hartur Alcantara*/
 
 
