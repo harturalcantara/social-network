@@ -21,7 +21,7 @@
 <body>
 
     <div class="header">
-        <a href="index.html"><img src="front/img/GraphsGeek.png " alt="" height="170" width="200"> </a>
+        <a href="index.html"><img src="img/GraphsGeek.png " alt="" height="170" width="200"> </a>
         <a href="index.html" style="font-size: 95px; color: white; text-decoration:none;"> <b>GraphsGeek</b></a>
     </div>
 
@@ -81,6 +81,12 @@
                             <input class="form-control" type="text" v-model="usuario.pais"
                                 :value="usuario.pais">
                     </div>
+
+                    <h5>Escolha uma imagem de perfil:
+                            <label class="btn btn-secondary">
+                                Escolher arquivo <input type="file" id="file" ref="file" name="image"
+                                    @change="handleFileUpload()" hidden>
+                            </label><br></h5>
                     
                     <button class="btn btn-primary" type="button" @click="submit">Atualizar Dados </button>
                     <button class="btn btn-danger" type="button" @click="deleteUser">Excluir Conta</button>
@@ -158,10 +164,11 @@
                         ).then(function (r) {
                             console.log(r.data);
                             console.log(r.data.id);
-                            alert("Dados atualizados! id");
-                            window.location.replace("userperfil-view.html?id=" + r.data.id);
+                            alert("Dados atualizados!");
+                            window.location.replace("user-perfil-view.html?id=" + r.data.id);
                         }).catch(function (error) {
-                            console.log(erro);
+                            console.log(error);
+                            alert("Erro!");
                         });
                     },
                     handleFileUpload() {

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title> Animes </title>
+    <title> WorldGraphsGeek </title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/estilos.css">
     <link rel="stylesheet" href="css/estilos2.css">
@@ -133,7 +133,7 @@
 
                         <div v-if="user.id == top.idAutor">
 
-                            <div v-if="top.idcategoria == 1">
+                            <div v-if="8 > top.idcategoria">
                                 <div class="mini_divScroll_eff">
 
                                     <img :src="'uploads/'+top.id+'?'+new Date().getTime()" width="1000" height="400"
@@ -243,15 +243,29 @@
                 axios.get(this.url).then(function (r) {
                     console.log(r.data);
                     vm.usuarios = r.data;
-
+                    /*
+                    if (r.data.user.length > 1) {
+                        vm.usuarios = r.data.user;
+                    } else {
+                        vm.usuarios = r.data;
+                    }*/
                 }).catch(function (error) {
                     console.log(error);
                 });
 
+
                 axios.get(this.url2).then(function (r) {
-                    //console.log(r.data);
+
+                    console.log(r.data);
                     vm.postfilmes = r.data;
+                    /*
+                    if (r.data.postfilme.length > 1) {
+                        vm.postfilmes = r.data.postfilme;
+                    } else {
+                        vm.postfilmes = r.data;
+                    }*/
                 }).catch(function (error) {
+
                     console.log(error);
                 });
                 /*
@@ -293,7 +307,10 @@
                     this.flagLogin = true;
                     window.location.replace("index.html");
                 }
+
             }
+
+
         });
 
         var app2 = new Vue({
@@ -314,7 +331,7 @@
             },
             methods: {
                 submit() {
-                    //console.log("Deu mt ruim!");
+                    console.log("Deu mt ruim!");
                     let formData = new FormData();
                     formData.append('image', this.file);
                     formData.append('idautor', this.idautor);

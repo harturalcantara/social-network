@@ -19,7 +19,7 @@
 
 <body>
   <div class="header">
-    <a href="index.html"><img src="front/img/GraphsGeek.png " alt="" height="170" width="200"> </a>
+    <a href="index.html"><img src="img/GraphsGeek.png " alt="" height="170" width="200"> </a>
     <a href="index.html" style="font-size: 95px; color: white; text-decoration:none;"> <b>GraphsGeek</b></a>
   </div>
 
@@ -33,7 +33,7 @@
     <form id="form">
       <br>
       <br>
-      <center for=""> <b style="font-size:50px">Preencha o formulário abaixo</b> </center> <br>
+      <center> <b style="font-size:50px"> Preencha o formulário abaixo </b> </center> <br>
 
       <div class="est_cadastro2">
         <div id="app">
@@ -44,7 +44,6 @@
               pattern="[a-zA-Z0-9]+" required>
           </div>
 
-
           <div class="form-group">
             <label for="password"> Defina sua Senha: </label>
             <input v-model="usuario.password" type="password" class="form-control" minlength="5" placeholder="Senha..."
@@ -53,7 +52,7 @@
 
           <div class="form-group">
             <label for="inputAddress">Defina seu email:</label>
-            <input v-model="usuario.email" type="text" class="form-control" id="cad" placeholder="Usuário..." required>
+            <input v-model="usuario.email" type="text" class="form-control" id="email" placeholder="Usuário...">
             <td>
               <div id="msgeu"></div>
             </td>
@@ -61,8 +60,7 @@
 
           <div class="form-group">
             <label for="inputAddress">Nome completo:</label>
-            <input type="text" v-model="usuario.nomecompleto" class="form-control" id="cad" placeholder="Usuário..."
-              required>
+            <input type="text" v-model="usuario.nomecompleto" class="form-control" id="nomecompleto" placeholder="Usuário...">
             <td>
               <div id="msgeu"></div>
             </td>
@@ -77,22 +75,27 @@
           <div class="form-row">
             <div class="form-group col-md-4">
               <label for="inputCity">Cidade:</label>
-              <input v-model="usuario.cidade" type="text" class="form-control" id="inputCity" placeholder="Cidade..."
+              <input v-model="usuario.cidade" type="text" class="form-control" id="cidade" placeholder="Cidade..."
                 required>
             </div>
 
             <div class="form-group col-md-4">
               <label for="inputCity">Estado:</label>
-              <input v-model="usuario.estado" type="text" class="form-control" id="inputCity" placeholder="Estado..."
+              <input v-model="usuario.estado" type="text" class="form-control" id="estado" placeholder="Estado..."
                 required>
             </div>
 
             <div class="form-group col-md-4">
               <label for="inputCity">País:</label>
-              <input v-model="usuario.pais" type="text" class="form-control" id="inputCity" placeholder="País..."
+              <input v-model="usuario.pais" type="text" class="form-control" id="pais" placeholder="País..."
                 required>
             </div>
           </div>
+          <h5>Escolha uma imagem de perfil:
+              <label class="btn btn-secondary">
+                  Escolher arquivo <input type="file" id="file" ref="file" name="image"
+                      @change="handleFileUpload()" hidden>
+              </label><br></h5>
 
           <a href="index.html"> <button class="button button2" type="button"> Cancelar </button> </a>
           <button class="button button2" type="button" @click="checkForm()">Cadastrar</button>
@@ -129,17 +132,7 @@
           pais: null,
           file: null,
         },
-
         errors: null,
-        username: null,
-        password: null,
-        nomecompleto: null,
-        email: null,
-        endereco: null,
-        cidade: null,
-        estado: null,
-        pais: null,
-        file: null,
         teste: null
       },
       methods: {
@@ -172,11 +165,14 @@
           if (!this.usuario.pais) {
             this.errors.push('O país é obrigatório.');
           }
+          if (this.usuario.file == null) {
+            this.errors.push('O arquivo de imagem é obrigatório.');
+          }
 
-          console.log(this.errors.length);
+          //console.log(this.errors.length);
           if (!this.errors.length) {
             this.submit();
-            alert('Cadastrado realizado com sucesso!');
+            //alert('Cadastrado realizado com sucesso!');
             return true;
           }
           else if (this.errors.length > 0) {
@@ -188,24 +184,18 @@
           return re.test(email);
         },
 
-
-
-
         submit() {
-
-
-
           vm = this;
           let formData = new FormData();
-          formData.append('image', this.file);
-          formData.append('username', this.username);
-          formData.append('password', this.password);
-          formData.append('nomecompleto', this.nomecompleto);
-          formData.append('email', this.email);
-          formData.append('endereco', this.endereco);
-          formData.append('cidade', this.cidade);
-          formData.append('estado', this.estado);
-          formData.append('pais', this.pais);
+          formData.append('image', this.usuario.file);
+          formData.append('username', this.usuario.username);
+          formData.append('password', this.usuario.password);
+          formData.append('nomecompleto', this.usuario.nomecompleto);
+          formData.append('email', this.usuario.email);
+          formData.append('endereco', this.usuario.endereco);
+          formData.append('cidade', this.usuario.cidade);
+          formData.append('estado', this.usuario.estado);
+          formData.append('pais', this.usuario.pais);
 
           axios.post(this.url,
             formData,
@@ -215,59 +205,15 @@
               }
             }
           ).then(function (r) {
-            //console.log(r.data);
+            alert('Cadastrado realizado com sucesso!');
             window.location.replace("index.html");
-
           }).catch(function (error) {
-            //vm.teste = "fasdfasdfasdf";
-            console.log("erro");
-            alert("Não foi possível cadastrar, verifique itens abaixo: " + "\n" + "1 - Preencha todos os campos! " + "\n" + "2 - Esse nome de usuário já existe por favor altere!");
+            //console.log("erro");
+            alert("Nome de usuário já existente, por favor altere!");
           });
         },
-        validar() {
-          var nome = form.nome.value;
-          var email = form.email.value;
-          var senha = form.senha.value;
-          var rep_senha = form.rep_senha.value;
-
-          if (nome == "") {
-            alert('Preencha o campo com seu nome');
-            form1.nome.focus();
-            return false;
-          }
-
-          if (email == "") {
-            alert('Preencha o campo com seu email');
-            form1.email.focus();
-            return false;
-          }
-
-          if (senha == "") {
-            alert('Preencha o campo com sua senha');
-            form1.senha.focus();
-            return false;
-          }
-
-          if (rep_senha == "") {
-            alert('Repita sua senha');
-            form1.rep_senha.focus();
-            return false;
-          }
-
-          if (nome.length < 5) {
-            alert('Digite seu nome completo');
-            form1.nome.focus();
-            return false;
-          }
-
-          if (senha != rep_senha) {
-            alert('Senhas diferentes');
-            form1.senha.focus();
-            return false;
-          }
-        },
         handleFileUpload() {
-          this.file = this.$refs.file.files[0];
+          this.usuario.file = this.$refs.file.files[0];
         }
       }
 

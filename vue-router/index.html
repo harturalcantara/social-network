@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Home</title>
+    <title> Home </title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/estilos.css">
     <link rel="stylesheet" href="css/estilos2.css">
-    <link rel="stylesheet" href="front/css/estilos2.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="js/jquery.min.js"></script>
     <script src="js/popper.min.js"></script>
@@ -17,17 +16,16 @@
     <script src="js/vue.js"></script>
     <script src="js/vue-session.js"></script>
     <script src="js/axios.min.js"></script>
-
 </head>
 
 <body>
     <div id="app">
         <div class="header">
-            <a href="index.html"><img src="/img/GraphsGeek.png " alt="" height="170" width="200"> </a>
+            <a href="index.html"><img src="img/GraphsGeek.png " alt="" height="170" width="200"> </a>
             <div class="header-right">
                 <a v-if="flagLogin" href="login.html" class="button button1">Login</a>
                 <a v-if="flagLogin" href="cadastrar.html" class="button button1">Cadastrar</a>
-                <a v-if="flagSair" :href="'userperfil-view.html?id='+teste" class="button button1">Perfil</a>
+                <a v-if="flagSair" :href="'user-perfil-view.html?id='+teste" class="button button1">Perfil</a>
                 <button v-if="flagSair" class="button button1" type="button" @click="logout">Sair</button>
             </div>
             <a href="index.html" style="font-size: 95px; color: white; text-decoration:none;"> <b>GraphsGeek</b></a>
@@ -44,8 +42,8 @@
             <a v-if="flagSair" href="catModaGeek.html" class="nav-link">Moda Geek</a>
             <a v-if="flagSair" href="catNoticias.html" class="nav-link">Noticias</a>
             <a v-if="flagSair" href="catTecnologias.html" class="nav-link">Tecnologias</a>
-            <a v-if="flagSair" href="catTecnologias.html" class="nav-link">WorldGraphsGeek</a>
-            <a v-if="flagSair" href="catWorldGraphsGeek.html" class="nav-link">Conhecer Pessoas</a>
+            <a v-if="flagSair" href="catWorldGraphsGeek.html" class="nav-link">WorldGraphsGeek</a>
+            <a v-if="flagSair" href="user-list.html" class="nav-link">Pessoas</a>
             <div v-if="flagSair" class="search-container">
                 <form action="/action_page.php">
 
@@ -177,7 +175,86 @@
         </div>
     </div>
 
-    <footer>
+    <script>
+
+        var app = new Vue({
+            el: "#app",
+            data: {
+                url: "http://localhost:8080/api/users",
+                usuarios: [],
+                flagSair: false,
+                flagLogin: true,
+                teste: null
+            },
+            created() {
+                var ida = this.$session.get("id");
+                this.teste = ida;
+                //console.log(this.teste);
+
+                if (this.$session.exists()) {
+                    this.flagSair = true;
+                    this.flagLogin = false;
+                }
+                vm = this;
+                axios.get(this.url).then(function (r) {
+                        vm.usuarios = r.data;
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+            methods: {
+                logout() {
+                    this.$session.destroy()
+                    this.flagSair = false;
+                    this.flagLogin = true;
+                }
+            }
+        });
+
+        var slideIndex = [1, 1];
+        var slideId = ["mySlides1", "mySlides2"]
+        showSlides(1, 0);
+        showSlides(1, 1);
+
+        function plusSlides(n, no) {
+            showSlides(slideIndex[no] += n, no);
+        }
+
+        function showSlides(n, no) {
+            var i;
+            var x = document.getElementsByClassName(slideId[no]);
+            if (n > x.length) { slideIndex[no] = 1 }
+            if (n < 1) { slideIndex[no] = x.length }
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+            }
+            x[slideIndex[no] - 1].style.display = "block";
+        }
+
+        /*automatic*/
+        var slideIndexx = 0;
+        showSlidess();
+
+        function showSlidess() {
+            var i;
+            var slides = document.getElementsByClassName("mySlidess");
+            var dots = document.getElementsByClassName("dot");
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slideIndexx++;
+            if (slideIndexx > slides.length) { slideIndexx = 1 }
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            slides[slideIndexx - 1].style.display = "block";
+            dots[slideIndexx - 1].className += " active";
+            setTimeout(showSlidess, 2000); // Change image every 2 seconds
+        }
+
+    </script>
+
+<footer>
         <div class="centered clearfix">
             <div class="footer-logo">
 
@@ -258,85 +335,6 @@
             All Rights Reserved © 2016 | <a href="">Privacy Policy</a> | <a href="">Terms of Service</a>
         </div>
     </footer>
-
-    <script>
-
-        var app = new Vue({
-            el: "#app",
-            data: {
-                url: "http://localhost:8080/api/users",
-                usuarios: [],
-                flagSair: false,
-                flagLogin: true,
-                teste: null
-            },
-            created() {
-                var ida = this.$session.get("id");
-                this.teste = ida;
-                //console.log(this.teste);
-
-                if (this.$session.exists()) {
-                    this.flagSair = true;
-                    this.flagLogin = false;
-                }
-                vm = this;
-                axios.get(this.url).then(function (r) {
-                        vm.usuarios = r.data;
-                }).catch(function (error) {
-                    console.log(error);
-                });
-            },
-            methods: {
-                logout() {
-                    this.$session.destroy()
-                    this.flagSair = false;
-                    this.flagLogin = true;
-                }
-            }
-        });
-
-        var slideIndex = [1, 1];
-        var slideId = ["mySlides1", "mySlides2"]
-        showSlides(1, 0);
-        showSlides(1, 1);
-
-        function plusSlides(n, no) {
-            showSlides(slideIndex[no] += n, no);
-        }
-
-        function showSlides(n, no) {
-            var i;
-            var x = document.getElementsByClassName(slideId[no]);
-            if (n > x.length) { slideIndex[no] = 1 }
-            if (n < 1) { slideIndex[no] = x.length }
-            for (i = 0; i < x.length; i++) {
-                x[i].style.display = "none";
-            }
-            x[slideIndex[no] - 1].style.display = "block";
-        }
-
-        /*automatic*/
-        var slideIndexx = 0;
-        showSlidess();
-
-        function showSlidess() {
-            var i;
-            var slides = document.getElementsByClassName("mySlidess");
-            var dots = document.getElementsByClassName("dot");
-            for (i = 0; i < slides.length; i++) {
-                slides[i].style.display = "none";
-            }
-            slideIndexx++;
-            if (slideIndexx > slides.length) { slideIndexx = 1 }
-            for (i = 0; i < dots.length; i++) {
-                dots[i].className = dots[i].className.replace(" active", "");
-            }
-            slides[slideIndexx - 1].style.display = "block";
-            dots[slideIndexx - 1].className += " active";
-            setTimeout(showSlidess, 2000); // Change image every 2 seconds
-        }
-
-    </script>
 </body>
 
 </html>
