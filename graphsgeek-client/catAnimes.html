@@ -350,7 +350,7 @@
                     console.log(this.name)
                 }
 
-                this.submit();
+                //this.submit();
                 //if (localStorage.name) this.name = localStorage.name;
                 //if (localStorage.age) this.age = localStorage.age;
 
@@ -414,7 +414,9 @@
                         }
                     ).then(function (r) {
                         console.log(r.data);
-                        window.location.replace("catAnimes.html");
+                        alert('Postagem realizado com sucesso!')
+                        window.location.reload(true)
+                        //window.location.replace("catAnimes.html");
                     }).catch(function (error) {
                         console.log(error);
                         alert("Algum dos campos estão vazios!");

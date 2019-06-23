@@ -41,59 +41,59 @@
                     </div>
                     <div class="form-group">
                         <label for="password">Password: </label>
-                        <input class="form-control" type="text" v-model="usuario.password"
-                            :value="usuario.password">
+                        <input class="form-control" type="text" v-model="usuario.password" :value="usuario.password">
                     </div>
 
                     <div class="form-group">
-                            <label for="password">Nome: </label>
-                            <input class="form-control" type="text" v-model="usuario.nomecompleto"
-                                :value="usuario.nomecompleto">
+                        <label for="password">Nome: </label>
+                        <input class="form-control" type="text" v-model="usuario.nomecompleto"
+                            :value="usuario.nomecompleto">
                     </div>
 
-                    
-                    <div class="form-group">
-                            <label for="password">Email: </label>
-                            <input class="form-control" type="text" v-model="usuario.email"
-                                :value="usuario.email">
-                    </div>
 
                     <div class="form-group">
-                            <label for="password">Endereço: </label>
-                            <input class="form-control" type="text" v-model="usuario.endereco"
-                                :value="usuario.endereco">
+                        <label for="password">Email: </label>
+                        <input class="form-control" type="text" v-model="usuario.email" :value="usuario.email">
                     </div>
 
                     <div class="form-group">
-                            <label for="password">Cidade: </label>
-                            <input class="form-control" type="text" v-model="usuario.cidade"
-                                :value="usuario.cidade">
+                        <label for="password">Endereço: </label>
+                        <input class="form-control" type="text" v-model="usuario.endereco" :value="usuario.endereco">
                     </div>
 
                     <div class="form-group">
-                            <label for="password">Estado: </label>
-                            <input class="form-control" type="text" v-model="usuario.estado"
-                                :value="usuario.estado">
+                        <label for="password">Cidade: </label>
+                        <input class="form-control" type="text" v-model="usuario.cidade" :value="usuario.cidade">
                     </div>
 
                     <div class="form-group">
-                            <label for="password">Pais: </label>
-                            <input class="form-control" type="text" v-model="usuario.pais"
-                                :value="usuario.pais">
+                        <label for="password">Estado: </label>
+                        <input class="form-control" type="text" v-model="usuario.estado" :value="usuario.estado">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Pais: </label>
+                        <input class="form-control" type="text" v-model="usuario.pais" :value="usuario.pais">
                     </div>
 
                     <h5>Escolha uma imagem de perfil:
-                            <label class="btn btn-secondary">
-                                Escolher arquivo <input type="file" id="file" ref="file" name="image"
-                                    @change="handleFileUpload()" hidden>
-                            </label><br></h5>
-                    
-                    <button class="btn btn-primary" type="button" @click="submit">Atualizar Dados </button>
+                        <label class="btn btn-secondary">
+                            Escolher arquivo <input type="file" id="file" ref="file" name="image"
+                                @change="handleFileUpload()" hidden>
+                        </label><br></h5>
+
+                    <button class="btn btn-primary" type="button" @click="checkForm()">Atualizar Dados </button>
                     <button class="btn btn-danger" type="button" @click="deleteUser">Excluir Conta</button>
                 </div>
             </div>
             <br>
             <br>
+            <div v-if="errors != null">
+              <h3>Por favor, corrija o(s) seguinte(s) erro(s):</h3>
+            </div>
+            <div v-for="error in errors" class="alert">
+              <strong>Erro!</strong> {{error}}.
+            </div>
 
         </div>
 
@@ -105,6 +105,7 @@
                     usuario: {},
                     file: null,
                     usuarios: [],
+                    errors: null,
                     flagSair: false,
                     flagLogin: true,
                     flag: false
@@ -113,14 +114,14 @@
                     var currentUrl = window.location.href;
                     var id = new URL(currentUrl).searchParams.get("id");
 
-               
+
 
                     if (this.$session.exists()) {
                         this.flagSair = true;
                         this.flagLogin = false;
                     }
                     vm = this;
-                    
+
                     axios.get(this.url).then(function (r) {
                         vm.usuarios = r.data;
 
@@ -138,9 +139,55 @@
                     });
                 },
                 methods: {
+                    checkForm: function (e) {
+                        this.errors = [];
+                        console.log(this.errors.length);
+                        if (!this.usuario.username) {
+                            this.errors.push('O nome de usuário é obrigatório.');
+                        }
+                        if (!this.usuario.password || this.usuario.password.length < 6) {
+                            this.errors.push('A senha é obrigatória e deve conter pelo menos 6 digitos!');
+                        }
+                        if (!this.usuario.email) {
+                            this.errors.push('O e-mail é obrigatório.');
+                        } else if (!this.validEmail(this.usuario.email)) {
+                            this.errors.push('Utilize um e-mail válido.');
+                        }
+                        if (!this.usuario.nomecompleto) {
+                            this.errors.push('O nome completo é obrigatório.');
+                        }
+                        if (!this.usuario.endereco) {
+                            this.errors.push('O endereço é obrigatório.');
+                        }
+                        if (!this.usuario.cidade) {
+                            this.errors.push('A cidade é obrigatório.');
+                        }
+                        if (!this.usuario.estado) {
+                            this.errors.push('O estado é obrigatório.');
+                        }
+                        if (!this.usuario.pais) {
+                            this.errors.push('O país é obrigatório.');
+                        }
+                        if (!this.file) {
+                            this.errors.push('O arquivo de imagem é obrigatório.');
+                        }
+
+                        if (!this.errors.length) {
+                            this.submit();
+                            this.errors = null;
+                            return true;
+                        }
+                        else if (this.errors.length > 0) {
+                            alert('Erro! Reveja o preenchimento dos campos!');
+                        }
+                    },
+                    validEmail: function (email) {
+                        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                        return re.test(email);
+                    },
                     submit() {
                         var currentUrl = window.location.href;
-                         var id = new URL(currentUrl).searchParams.get("id");
+                        var id = new URL(currentUrl).searchParams.get("id");
                         let formData = new FormData();
                         formData.append('image', this.file);
                         formData.append('username', this.usuario.username);

@@ -156,10 +156,16 @@
                         <textarea name="" id="" cols="30" rows="10" v-model="texto"></textarea>
 
                     </div>
-                    <button class="button button2" type="button" @click="submit">Enviar</button>
+                    <button class="button button2" type="button" @click="checkForm()">Enviar</button>
                     <button class="button button2" type="button" @click="limpar">Limpar</button>
 
                     <br><br><br>
+                    <div v-if="errors != null">
+                        <h3>Por favor, corrija o(s) seguinte(s) erro(s):</h3>
+                    </div>
+                    <div v-for="error in errors" class="alert">
+                        <strong>Erro!</strong> {{error}}.
+                    </div>
                 </div>
 
             </div>
@@ -244,7 +250,8 @@
                 idautor: null,
                 idtopico: null,
                 texto: null,
-                file: null
+                file: null,
+                errors: null
             },
             created() {
                 var currentUrl = window.location.href;
@@ -257,6 +264,21 @@
                 console.log(this.idautor);
             },
             methods: {
+                checkForm: function (e) {
+                    this.errors = [];
+                    console.log(this.errors.length);
+                    if (!this.texto) {
+                        this.errors.push('O comentário é obrigatório');
+                    }
+                    if (!this.errors.length) {
+                        this.submit();
+                        this.errors = null;
+                        return true;
+                    }
+                    else if (this.errors.length > 0) {
+                        alert('Erro! Reveja o preenchimento dos campos!');
+                    }
+                },
                 submit() {
                     let formData = new FormData();
                     formData.append('image', this.file);
@@ -272,6 +294,8 @@
                         }
                     ).then(function (r) {
                         console.log(r.data);
+                        alert('Comentário realizado com sucesso!')
+                        window.location.reload(true)
                         //window.location.replace("catGames.html");
                     }).catch(function (error) {
                         alert("Preencha o seu comentário!");

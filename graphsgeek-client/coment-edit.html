@@ -52,13 +52,19 @@
                                 Escolher arquivo <input type="file" id="file" ref="file" name="image"
                                     @change="handleFileUpload()" hidden>
                             </label><br></h5> -->
-                    
-                    <button class="btn btn-primary" type="button" @click="submit">Atualizar Dados </button>
+
+                    <button class="btn btn-primary" type="button" @click="checkForm()">Atualizar Dados </button>
                     <button class="btn btn-danger" type="button" @click="deleteUser">Excluir postagem</button>
                 </div>
             </div>
             <br>
             <br>
+            <div v-if="errors != null">
+                <h3>Por favor, corrija o(s) seguinte(s) erro(s):</h3>
+            </div>
+            <div v-for="error in errors" class="alert">
+                <strong>Erro!</strong> {{error}}.
+            </div>
 
         </div>
 
@@ -67,10 +73,11 @@
                 el: "#app",
                 data: {
                     url: "http://localhost:8080/api/coments",
-                    
+
                     post: {},
                     file: null,
                     postagens: [],
+                    errors: null,
                     flagSair: false,
                     flagLogin: true,
                     flag: false
@@ -106,6 +113,21 @@
                     });
                 },
                 methods: {
+                    checkForm: function (e) {
+                        this.errors = [];
+                        console.log(this.errors.length);
+                        if (!this.post.texto) {
+                            this.errors.push('O comentário é obrigatório');
+                        }
+                        if (!this.errors.length) {
+                            this.submit();
+                            this.errors = null;
+                            return true;
+                        }
+                        else if (this.errors.length > 0) {
+                            alert('Erro! Reveja o preenchimento dos campos!');
+                        }
+                    },
                     submit() {
                         var currentUrl = window.location.href;
                         var id = new URL(currentUrl).searchParams.get("id");
@@ -125,6 +147,7 @@
                             console.log(r.data);
                             console.log(r.data.id);
                             alert("Dados atualizados!");
+                            window.history.back();
                             //window.location.replace("user-perfil-view.html?id=" + r.data.id);
                         }).catch(function (error) {
                             console.log(error);
@@ -135,11 +158,11 @@
                         this.file = this.$refs.file.files[0];
                     },
                     deleteUser() {
-                        this.$session.destroy()
-
                         axios.delete(this.url + "/" + this.post.id).then(function (r) {
                             console.log(r);
-                            //window.location.replace('index.html')
+                            alert('Comentário excluida com sucesso!')
+                            window.history.back();
+                            //window.location.reload();
                         }).catch(function (error) {
                             console.log(error);
                         });

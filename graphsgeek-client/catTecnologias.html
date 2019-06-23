@@ -5,11 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title> Games </title>
+    <title> Tecnologias </title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/estilos.css">
     <link rel="stylesheet" href="css/estilos2.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
     <script src="js/jquery.min.js"></script>
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
@@ -22,9 +24,9 @@
 <body>
     <div id="app">
         <div class="header">
-            <a href="index.html"><img src="front/img/GraphsGeek.png " alt="" height="170" width="200"> </a>
+            <a href="index.html"><img src="img/GraphsGeek.png" alt="" height="170" width="200"> </a>
             <div class="header-right">
-                <a :href="'userperfil-view.html?id='+teste"> <button class="button button1" formaction="Perfil.html"
+                <a :href="'user-perfil-view.html?id='+teste"> <button class="button button1" formaction="Perfil.html"
                         type="submit"> Perfil
                     </button> </a>
                 <button v-if="flagSair" class="button button1" type="button" @click="logout">Sair</button>
@@ -42,13 +44,12 @@
             <a href="catModaGeek.html" class="nav-link">Moda Geek</a></li>
             <a href="catNoticias.html" class="nav-link">Noticias</a></li>
             <a href="catTecnologias.html" class="nav-link">Tecnologias</a></li>
+            <a v-if="flagSair" href="catWorldGraphsGeek.html" class="nav-link">WorldGraphsGeek</a>
+            <a v-if="flagSair" href="user-list.html" class="nav-link">Pessoas</a>
 
-            <div class="search-container">
-                <form action="/action_page.php">
-
-                    <input type="text" placeholder="Pesquisar assunto..." name="search">
-                    <button type="submit"><i class="fa fa-search"></i></button>
-                </form>
+            <div v-if="flagSair" class="search-container">
+                <input type="text" v-model="name" placeholder="Pesquisar assunto..." name="search">
+                <button @click="persist"><i class="fa fa-search"></i></button>
             </div>
         </div>
 
@@ -96,22 +97,55 @@
                 <span class="dot"></span>
                 <span class="dot"></span>
             </div>
-
+            <br>
             <center>
                 <h2>Postagens dos usuários</h2>
             </center>
+            <!-- 
+            <h3>Lista de Usuarios (BUSCAR)</h3>
+            <div class="form-group">
+                    <label for="idcategoria">idcategoria: </label>
+                    <input class="form-control" type="text" v-model="string">
+            </div>
+            <button class="button button2" type="button" @click="search()"> <b> Buscar </b> </button>
+
+            <ul>
+                <li v-for="user in usuarios">
+                    <a :href="'user-view.html?id='+user.id">{{user.username}}</a>
+
+                </li>
+            </ul>
+
+            <h3>Lista de Postagens</h3>
+            <ul>
+                <li v-for="curso in postfilmes">
+                    <a :href="'postFilmes-view.html?id='+curso.id">{{curso.topico}}</a>
+                    <img :src="'uploads/'+curso.id+'?'+new Date().getTime()" width="200" height="200"><br><br>
+                </li>
+            </ul>
+            -->
+
+            
             <div class="divScroll">
+
                 <div v-for="top in postfilmes">
                     <div v-for="user in usuarios">
-                        <div v-if="user.id == top.idautor">
+                        <div v-if="user.id == top.idAutor">
                             <div v-if="top.idcategoria == 7">
                                 <div class="mini_divScroll_eff">
+                                    
+                                    <div v-if="teste == top.idAutor">
+                                        <a class="btn btn-warning" style="height: 40px; font-size: 15px; color: white; opacity: 0.7;" :href="'post-edit.html?id='+top.id">  <i class="fa fa-cog" aria-hidden="true"></i>    <b>Gerenciar postagem</b> 
+                                            </a>
+                                    </div>
 
-                                    <img :src="'uploads/'+top.id+'?'+new Date().getTime()" width="1000" height="400"
+                                    <img :src="'uploads/'+top.id+'?'+new Date().getTime()" width="1000" height="500"
                                         style="margin-bottom: -50px; margin-left: 40px; margin-top: 30px; border-radius: 5px;">
+
                                     <div class="mini_divScroll" style="margin-bottom: 0px;">
-                                        <h4>Identificação do Autor:<a :href="'user-view.html?id='+top.idautor">
-                                                #{{top.idautor}}</a> (Clique
+
+                                        <h4>Autor: <a :href="'user-view.html?id='+top.idAutor">
+                                                {{user.username}}</a> (Clique
                                             para
                                             ver
                                             o perfil)</h4>
@@ -143,14 +177,21 @@
         <div class="slideshow-containerr">
 
             <div id="app2">
+                <br>
+                <h2 style="margin-left: 30px"> <b> Adicione uma postagem </b></h2> <br>
 
-                <h3 style="margin-left: 30px"> <b> Adicione uma postagem</b></h3> <br>
+                <!--  
+                <div class="form-group">
+                    <label for="idautor">idAutor: </label>
+                    <input class="form-control" type="text" v-model="idautor">
+                </div>
+                {{idautor}}
 
-                <!-- 
-                                <div class="form-group">
-                                    <label for="idautor">idAutor: </label>
-                                    <input class="form-control" type="text" v-model="idautor">
-                                </div> -->
+                <div class="form-group">
+                    <label for="idcategoria">idcategoria: </label>
+                    <input class="form-control" type="text" v-model="idcategoria">
+                </div>
+                -->
 
                 <div class="form-group">
                     <h4>Assunto:</h4>
@@ -165,20 +206,261 @@
                         Escolher arquivo <input type="file" id="file" ref="file" name="image"
                             @change="handleFileUpload()" hidden>
                     </label><br></h4>
-                <button class="button button2" type="button" @click="submit"> <b> Enviar </b> </button>
+                <button class="button button2" type="button" @click="checkForm()"> <b> Enviar </b> </button>
                 <button class="button button2" type="button" @click="limpar"> <b> Limpar </b> </button>
                 <br><br>
+                <div v-if="errors != null">
+                    <h3>Por favor, corrija o(s) seguinte(s) erro(s):</h3>
+                </div>
+                <div v-for="error in errors" class="alert">
+                    <strong>Erro!</strong> {{error}}.
+                </div>
+
             </div>
 
         </div>
 
+
+
     </div>
+
+
+
+    <script>
+        var app3 = new Vue({
+            el: '#app3',
+            data: {
+                name: '',
+                age: 0
+            },
+            mounted() {
+                if (localStorage.name) this.name = localStorage.name;
+                if (localStorage.age) this.age = localStorage.age;
+            },
+            methods: {
+                persist() {
+                    localStorage.name = this.name;
+                    localStorage.age = this.age;
+
+                    console.log('Agora finja que fiz mais coisas...');
+                    window.location.replace("buscarPostagem.html");
+                },
+                sair() {
+                    this.$session.destroy()
+                    this.flagSair = false;
+                    this.flagLogin = true;
+                    localStorage.clear();
+                    window.location.replace("index.html");
+                }
+            }
+        });
+        var app = new Vue({
+            el: "#app",
+            data: {
+                url: "http://localhost:8080/api/users",
+                url2: "http://localhost:8080/api/posts",
+                //url3: "http://localhost:8080/rest_persistence/api/comfilmes",
+                usuarios: [],
+                postfilmes: [],
+                comfilmes: [],
+                flagSair: false,
+                flagLogin: true,
+                teste: null,
+                string: null,
+                name: null,
+            },
+            created() {
+                var ida = this.$session.get("id");
+                this.teste = ida;
+                console.log(this.teste);
+
+                if (this.$session.exists()) {
+                    this.flagSair = true;
+                    this.flagLogin = false;
+                }
+
+                vm = this;
+                axios.get(this.url).then(function (r) {
+                    console.log(r.data);
+                    vm.usuarios = r.data;
+
+                }).catch(function (error) {
+                    console.log(error);
+                });
+
+                axios.get(this.url2).then(function (r) {
+                    //console.log(r.data);
+                    vm.postfilmes = r.data;
+                }).catch(function (error) {
+                    console.log(error);
+                });
+                /*
+                axios.get(this.url3).then(function (r) {
+                    if (r.data.comfilme.length > 1) {
+                        vm.comfilmes = r.data.comfilme;
+                    } else {
+                        vm.comfilmes = r.data;
+                    }
+                }).catch(function (error) {
+                    console.log(error);
+                });*/
+
+            },
+            search() {
+                vm = this;
+                let formData = new FormData();
+                formData.append('username', this.username);
+                //formData.append('password', this.password);
+
+                axios.get(this.url,
+                    formData,
+                    {
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    }
+                ).then(function (r) {
+                    vm.usuarios = r.data;
+                }).catch(function (error) {
+                    console.log(error);
+                    alert("Não foi possível buscar!");
+                });
+            },
+            methods: {
+
+                persist() {
+                    localStorage.name = this.name;
+                    if (!this.name || this.name == null || this.name == 'null' || this.name == '')
+                        alert('Digite um assunto que deseja buscar!')
+                    else {
+                        console.log('Agora finja que fiz mais coisas...');
+                        window.location.replace("buscarPostagem.html");
+                    }
+                },
+                logout() {
+                    this.$session.destroy()
+                    this.flagSair = false;
+                    this.flagLogin = true;
+                    window.location.replace("index.html");
+                }
+            },
+            mounted() {
+                if (localStorage.name) {
+                    this.name = localStorage.name;
+                    console.log(this.name)
+                }
+
+                //this.submit();
+                //if (localStorage.name) this.name = localStorage.name;
+                //if (localStorage.age) this.age = localStorage.age;
+
+            }
+
+        });
+
+        var app2 = new Vue({
+            el: "#app2",
+            data: {
+                url3: "http://localhost:8080/api/posts",
+                idautor: null,
+                idcategoria: null,
+                topico: null,
+                descricao: null,
+                file: null,
+                errors: null
+            },
+            created() {
+                var id2 = this.$session.get("id");
+                this.idautor = id2;
+                this.idcategoria = 7;
+                console.log(this.idautor);
+            },
+            methods: {
+                checkForm: function (e) {
+                    this.errors = [];
+                    console.log(this.errors.length);
+                    if (!this.topico) {
+                        this.errors.push('O assunto é obrigatório.');
+                    }
+                    if (!this.descricao) {
+                        this.errors.push('A descrição é obrigatória!');
+                    }
+                    if (this.file == null) {
+                        this.errors.push('O arquivo de imagem é obrigatório.');
+                    }
+                    if (!this.errors.length) {
+                        this.submit();
+                        this.errors = null;
+                        //alert('Cadastrado realizado com sucesso!');
+                        return true;
+                    }
+                    else if (this.errors.length > 0) {
+                        alert('Erro! Reveja o preenchimento dos campos!');
+                    }
+                },
+                submit() {
+                    let formData = new FormData();
+                    formData.append('image', this.file);
+                    formData.append('idautor', this.idautor);
+                    formData.append('idcategoria', this.idcategoria);
+                    formData.append('topico', this.topico);
+                    formData.append('descricao', this.descricao);
+                    axios.post(this.url3,
+                        formData,
+                        {
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            }
+                        }
+                    ).then(function (r) {
+                        console.log(r.data);
+                        alert('Postagem realizado com sucesso!')
+                        window.location.reload(true)
+                        //window.location.replace("catAnimes.html");
+                    }).catch(function (error) {
+                        console.log(error);
+                        alert("Algum dos campos estão vazios!");
+                    });
+                },
+                handleFileUpload() {
+                    this.file = this.$refs.file.files[0];
+                },
+                limpar() {
+                    this.topico = null;
+                    this.descricao = null;
+                }
+            }
+        });
+
+        /*automatic*/
+        var slideIndexx = 0;
+        showSlidess();
+
+        function showSlidess() {
+            var i;
+            var slides = document.getElementsByClassName("mySlidess");
+            var dots = document.getElementsByClassName("dot");
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            slideIndexx++;
+            if (slideIndexx > slides.length) { slideIndexx = 1 }
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            slides[slideIndexx - 1].style.display = "block";
+            dots[slideIndexx - 1].className += " active";
+            setTimeout(showSlidess, 2000); // Change image every 2 seconds
+        }
+
+    </script>
+
 
     <footer>
         <div class="centered clearfix">
             <div class="footer-logo">
 
-                <a href="index.html"> <img class="logo" src="front/img/GraphsGeek.png"
+                <a href="index.html"> <img class="logo" src="img/GraphsGeek.png"
                         style="height: 150px; width: 170px; margin-left: 35px; "> </a>
 
 
@@ -213,21 +495,21 @@
                 </div>
             </div>
 
-            <div class="footer-contact" >
+            <div class="footer-contact">
                 <h3><a href="">GraphsGeek</a></h3>
-            
+
                 <p><a href="">Conectando o mundo!</a></p>
             </div>
 
             <div class="footer-navigation">
                 <div class="footer-links-holder">
-                    
+
                     <ul class="footer-links">
-                            <h3><a href="">Endereço</a></h3>
-                            <p><a href="mailto:">graphsgeek@email.com</a></p>
-                            <p><a href="tel:">+55-(88)9890-1022</a></p>
-                            <p><a href="">286 Fake St<br />Fake, PA 11111</a></p>
-                        
+                        <h3><a href="">Endereço</a></h3>
+                        <p><a href="mailto:">graphsgeek@email.com</a></p>
+                        <p><a href="tel:">+55-(88)9890-1022</a></p>
+                        <p><a href="">286 Fake St<br />Fake, PA 11111</a></p>
+
                     </ul>
                 </div>
 
@@ -235,7 +517,7 @@
                     <h3><a href="">Sobre-nos</a></h3>
                     <ul class="footer-links">
                         <li><a href="">Desenvolvedores</a></li>
-                        <li><a href="">Futuros projetos</a></li>                       
+                        <li><a href="">Futuros projetos</a></li>
                     </ul>
                 </div>
 
@@ -245,7 +527,7 @@
                         <li><a href="">facebook/graphsgeek.com</a></li>
                         <li><a href="">instagram/graphsgeek.com</a></li>
                         <li><a href="">youtube/graphsgeek.com</a></li>
-                        
+
                     </ul>
                 </div>
 
@@ -255,146 +537,6 @@
             All Rights Reserved © 2016 | <a href="">Privacy Policy</a> | <a href="">Terms of Service</a>
         </div>
     </footer>
-
-    <script>
-        var app = new Vue({
-            el: "#app",
-            data: {
-                url: "http://localhost:8080/rest_persistence/api/users",
-                url2: "http://localhost:8080/rest_persistence/api/postfilmes",
-                url3: "http://localhost:8080/rest_persistence/api/comfilmes",
-                usuarios: [],
-                postfilmes: [],
-                comfilmes: [],
-                flagSair: false,
-                flagLogin: true,
-                teste: null
-            },
-            created() {
-                var ida = this.$session.get("id");
-                this.teste = ida;
-                console.log(this.teste);
-
-                if (this.$session.exists()) {
-                    this.flagSair = true;
-                    this.flagLogin = false;
-                }
-
-                vm = this;
-                axios.get(this.url).then(function (r) {
-                    if (r.data.user.length > 1) {
-                        vm.usuarios = r.data.user;
-                    } else {
-                        vm.usuarios = r.data;
-                    }
-                }).catch(function (error) {
-                    console.log(error);
-                });
-
-
-                axios.get(this.url2).then(function (r) {
-                    if (r.data.postfilme.length > 1) {
-                        vm.postfilmes = r.data.postfilme;
-                    } else {
-                        vm.postfilmes = r.data;
-                    }
-                }).catch(function (error) {
-                    console.log(error);
-                });
-
-                axios.get(this.url3).then(function (r) {
-                    if (r.data.comfilme.length > 1) {
-                        vm.comfilmes = r.data.comfilme;
-                    } else {
-                        vm.comfilmes = r.data;
-                    }
-                }).catch(function (error) {
-                    console.log(error);
-                });
-
-            },
-            methods: {
-                logout() {
-                    this.$session.destroy()
-                    this.flagSair = false;
-                    this.flagLogin = true;
-                    window.location.replace("index.html");
-                }
-            }
-
-
-        });
-
-        var app2 = new Vue({
-            el: "#app2",
-            data: {
-                url3: "http://localhost:8080/rest_persistence/api/postfilmes",
-                idautor: null,
-                topico: null,
-                descricao: null,
-                idcategoria: null,
-                file: null
-            },
-            created() {
-                var id2 = this.$session.get("id");
-                this.idautor = id2;
-                this.idcategoria = 7;
-                console.log(this.idautor);
-            },
-            methods: {
-                submit() {
-                    let formData = new FormData();
-                    formData.append('image', this.file);
-                    formData.append('idautor', this.idautor);
-                    formData.append('topico', this.topico);
-                    formData.append('descricao', this.descricao);
-                    formData.append('idcategoria', this.idcategoria);
-                    axios.post(this.url3,
-                        formData,
-                        {
-                            headers: {
-                                'Content-Type': 'multipart/form-data'
-                            }
-                        }
-                    ).then(function (r) {
-                        console.log(r.data);
-                        window.location.replace("catTecnologias.html");
-                    }).catch(function (error) {                        
-                        console.log(error);
-                        alert("Algum dos campos estão vazios!");
-                    });
-                },
-                handleFileUpload() {
-                    this.file = this.$refs.file.files[0];
-                },
-                limpar(){
-                    this.descricao = null;
-                }
-            }
-        });
-
-        /*automatic*/
-        var slideIndexx = 0;
-        showSlidess();
-
-        function showSlidess() {
-            var i;
-            var slides = document.getElementsByClassName("mySlidess");
-            var dots = document.getElementsByClassName("dot");
-            for (i = 0; i < slides.length; i++) {
-                slides[i].style.display = "none";
-            }
-            slideIndexx++;
-            if (slideIndexx > slides.length) { slideIndexx = 1 }
-            for (i = 0; i < dots.length; i++) {
-                dots[i].className = dots[i].className.replace(" active", "");
-            }
-            slides[slideIndexx - 1].style.display = "block";
-            dots[slideIndexx - 1].className += " active";
-            setTimeout(showSlidess, 2000); // Change image every 2 seconds
-        }
-
-    </script>
 </body>
 
 </html>

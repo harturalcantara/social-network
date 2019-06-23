@@ -61,7 +61,7 @@ public class ComentarioService {
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Comentario> addComentario(Integer idautor, Integer idtopico, String texto, MultipartFile image) {
-    	System.out.println("oi");
+    	System.out.println("comentario-POST");
         if (texto == null || texto.equals("null")) {
         	System.out.println("ComentarioService - Não preencheu tds os campos!");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
