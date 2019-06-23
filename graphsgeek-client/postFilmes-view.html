@@ -93,32 +93,38 @@
 
             <div class="divScroll">
                 <div v-for="com in comfilmes">
-                    <div v-if="com.idtopico == postfilme.id">
-                        <div class="mini_divScroll_eff">
+                    <div v-for="user in usuarios">
+                        <div v-if="user.id == com.idautor">
+                            <div v-if="com.idtopico == postfilme.id">
 
 
-                            <div id="mini_divScroll">
-                                <!--  
-                            <a :href="'comFilmes-view.html?id='+com.id"> id_comentario: {{com.id}} </a> <br>
-                            <a :href="'comFilmes-view.html?id='+com.id"> id_autor: {{com.idautor}} </a> <br>
-                            <a :href="'comFilmes-view.html?id='+com.id"> id_topico: {{com.idtopico}} </a> <br>-->
-                                <br>
 
+                                <div class="mini_divScroll_eff">
+                                    <div id="mini_divScroll">
+                                        <div v-if="teste == com.idautor">
+                                            <a class="btn btn-warning"
+                                                style="height: 40px; font-size: 15px; color: white; opacity: 0.7;"
+                                                :href="'coment-edit.html?id='+com.id"> <i class="fa fa-cog"
+                                                    aria-hidden="true"></i> <b>Gerenciar comentário</b>
+                                            </a>
+                                        </div>
+                                        <br>
+                                        <h4 style="margin-left: 20px">
+                                            <b>Identificação do Autor:</b><a :href="'user-view.html?id='+com.idautor">
+                                                {{user.username}}</a> (Clique
+                                            para
+                                            ver
+                                            o perfil) <br>
+                                            <b> Comentário:</b> {{com.texto}} </h4>
+                                        </p>
+                                        <br>
+                                        <br>
+                                    </div>
+                                </div>
 
-                                <h4 style="margin-left: 20px">
-                                    <b>Identificação do Autor:</b><a :href="'user-view.html?id='+com.idautor">
-                                        #{{com.idautor}}</a> (Clique
-                                    para
-                                    ver
-                                    o perfil) <br>
-                                    <b> Comentário:</b> {{com.texto}} </h4>
-                                </p>
-                                <br>
-                                <br>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
 
@@ -168,13 +174,20 @@
             el: "#app",
             data: {
                 url: "http://localhost:8080/api/posts",
+                url2: "http://localhost:8080/api/users",
                 url3: "http://localhost:8080/api/coments",
                 postfilme: {},
                 flag: false,
+                teste: null,
+                usuarios: [],
                 comfilmes: [],
                 postfilmes: []
             },
             created() {
+                var ida = this.$session.get("id");
+                this.teste = ida;
+                console.log(this.teste);
+
                 var currentUrl = window.location.href;
                 var id = new URL(currentUrl).searchParams.get("id");
                 //var idautor = session
@@ -183,6 +196,15 @@
                     vm.postfilme = r.data;
                     vm.postfilmes = r.data;
                     vm.flag = true;
+                }).catch(function (error) {
+                    console.log(error);
+                });
+
+                vm = this;
+                axios.get(this.url2).then(function (r) {
+                    console.log(r.data);
+                    vm.usuarios = r.data;
+
                 }).catch(function (error) {
                     console.log(error);
                 });

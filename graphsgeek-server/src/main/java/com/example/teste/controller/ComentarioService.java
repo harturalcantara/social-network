@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 //import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,18 +26,18 @@ import com.example.teste.util.Upload;
 public class ComentarioService {
  
     @Autowired
-    private ComentarioRepository coments;
+    private ComentarioRepository comts;
  
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<Comentario>> getComentarios() {
-        return new ResponseEntity<List<Comentario>>(coments.findAll(), HttpStatus.OK);
+        return new ResponseEntity<List<Comentario>>(comts.findAll(), HttpStatus.OK);
         //return new ResponseEntity<List<Curso>>(cursos.findAll(new Sort(Sort.Direction.ASC, "id")), HttpStatus.OK);
     }
     
     
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
-    public ResponseEntity<Comentario> getComentario(@PathVariable("id") Integer id) {
-        Optional<Comentario> comt = coments.findById(id);
+    public ResponseEntity<Comentario> getComent(@PathVariable("id") Integer id) {
+        Optional<Comentario> comt = comts.findById(id);
  
         if (comt.isPresent()) {
             return new ResponseEntity<Comentario>(comt.get(), HttpStatus.OK);
@@ -46,17 +47,17 @@ public class ComentarioService {
     }
     
    
-    /* @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public ResponseEntity<Comentario> getPostagem(@RequestParam("topico") String topico) {
-        System.out.println(topico);
-        Comentario post = posts.findByNome(topico);
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public ResponseEntity<Comentario> getComentario(@RequestParam("texto") String texto) {
+        System.out.println(texto);
+        Comentario post = comts.findByNome(texto);
  
         if (post != null) {
-            return new ResponseEntity<Postagem>(post, HttpStatus.OK);
+            return new ResponseEntity<Comentario>(post, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-    }*/
+    }
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Comentario> addComentario(Integer idautor, Integer idtopico, String texto, MultipartFile image) {
@@ -68,7 +69,7 @@ public class ComentarioService {
         System.out.println("oi bom");
         Comentario comt = new Comentario(null, idautor, idtopico, texto);
         
-        Comentario cursoAux = coments.save(comt);
+        Comentario cursoAux = comts.save(comt);
         /*
         try {
             Upload.uploadFile(image.getInputStream(), cursoAux.getId());
@@ -81,22 +82,25 @@ public class ComentarioService {
     
     @RequestMapping(value = "{id}", method = RequestMethod.PUT)
     public ResponseEntity<Comentario> atualizarComentario(@PathVariable("id") int id, String texto, MultipartFile image) {
-        if (texto == null || texto.equals("null") ) {
+    	System.out.println("CHEGUEEIII");
+    	if (texto == null || texto.equals("null") ) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        Optional<Comentario> comt = coments.findById(id);
+        System.out.println("CHEGUEEIII");
+        Optional<Comentario> comt = comts.findById(id);
  
         if (comt.isPresent()) {
         	comt.get().setTexto(texto);
         	
-            coments.save(comt.get());
+        	comts.save(comt.get());
+        	/*
             try {
                 if (image != null) {
                     Upload.uploadFile(image.getInputStream(), id);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-            }
+            }*/
  
             return new ResponseEntity<Comentario>(comt.get(), HttpStatus.OK);
         } else {
@@ -106,8 +110,8 @@ public class ComentarioService {
  
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deletarComentario(@PathVariable("id") int id) {
-        if(coments.existsById(id)) {
-        	coments.deleteById(id);
+        if(comts.existsById(id)) {
+        	comts.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

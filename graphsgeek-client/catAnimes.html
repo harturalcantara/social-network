@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="css/estilos.css">
     <link rel="stylesheet" href="css/estilos2.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
     <script src="js/jquery.min.js"></script>
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
@@ -123,7 +125,7 @@
             </ul>
             -->
 
-            id --> {{this.teste}}
+            
             <div class="divScroll">
 
                 <div v-for="top in postfilmes">
@@ -131,15 +133,11 @@
                         <div v-if="user.id == top.idAutor">
                             <div v-if="top.idcategoria == 1">
                                 <div class="mini_divScroll_eff">
-
-                                    {{teste}} == {{top.idAutor}}
+                                    
                                     <div v-if="teste == top.idAutor">
-                                        <a class="button button1" :href="'post-edit.html?id='+top.id">Gerenciar
-                                            Dados</a>
+                                        <a class="btn btn-warning" style="height: 40px; font-size: 15px; color: white; opacity: 0.7;" :href="'post-edit.html?id='+top.id">  <i class="fa fa-cog" aria-hidden="true"></i>    <b>Gerenciar postagem</b> 
+                                            </a>
                                     </div>
-
-
-
 
                                     <img :src="'uploads/'+top.id+'?'+new Date().getTime()" width="1000" height="500"
                                         style="margin-bottom: -50px; margin-left: 40px; margin-top: 30px; border-radius: 5px;">
@@ -179,8 +177,8 @@
         <div class="slideshow-containerr">
 
             <div id="app2">
-
-                <h3 style="margin-left: 30px"> <b> Adicione uma postagem </b></h3> <br>
+                <br>
+                <h2 style="margin-left: 30px"> <b> Adicione uma postagem </b></h2> <br>
 
                 <!--  
                 <div class="form-group">
