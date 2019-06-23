@@ -5,34 +5,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> Buscar </title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/estilos.css">
     <link rel="stylesheet" href="css/estilos2.css">
+    <link rel="stylesheet" href="css/search.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-
-    <title> Perfil Usuário </title>
     <script src="js/jquery.min.js"></script>
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/vue.js"></script>
     <script src="js/vue-router.js"></script>
-    <script src="js/axios.min.js"></script>
     <script src="js/vue-session.js"></script>
+    <script src="js/axios.min.js"></script>
 </head>
 
 <body>
     <div id="app">
         <div class="header">
-            <a href="index.html"><img src="img/GraphsGeek.png " alt="" height="170" width="200"> </a>
-            <div class="header-right">
-                <a :href="'user-perfil-view.html?id='+teste"> <button class="button button1" formaction="Perfil.html"
-                        type="submit"> Perfil
-                    </button> </a>
-                <button v-if="flagSair" class="button button1" type="button" @click="logout">Sair</button>
-            </div>
-
-            <a href="index.html" style="font-size: 95px; color: white; text-decoration:none;"> <b>GraphsGeek</b></a>
+            <a href="index.html" @click="voltar()"><img src="img/GraphsGeek.png " alt="" height="170" width="200"> </a>
+            <a href="index.html" @click="voltar()" style="font-size: 95px; color: white; text-decoration:none;">
+                <b>GraphsGeek</b></a>
         </div>
 
         <div class="topnav">
@@ -44,188 +37,188 @@
             <a href="catModaGeek.html" class="nav-link">Moda Geek</a></li>
             <a href="catNoticias.html" class="nav-link">Noticias</a></li>
             <a href="catTecnologias.html" class="nav-link">Tecnologias</a></li>
+            <a href="catWorldGraphsGeek.html" class="nav-link">WorldGraphsGeek</a>
+            <a href="user-list.html" class="nav-link">Pessoas</a>
 
             <div class="search-container">
-                <form action="/action_page.php">
 
-                    <input type="text" placeholder="Pesquisar assunto.." name="search">
-                    <button type="submit"><i class="fa fa-search"></i></button>
-                </form>
+                <!--  
+                                    <a href="buscarPostagem.html">Pesquisar</a>-->
+                <input type="text" v-model="name" placeholder="Pesquisar assunto..." name="search">
+                <!-- {{name}} -->
+
+                <button @click="persist"><i class="fa fa-search"></i></button>
+
+
+
             </div>
         </div>
 
+
         <div class="estrutura">
 
-            <div v-if="flag">
-                <center> <img src="img/person_icon.png" alt="" height="160" width="180">
-                    <h2>
-                        <p>Perfil de {{usuario.username}} </p>
-                    </h2>
-                </center>
-            </div>
+            <center> <b style="font-size:50px"> Digite o nome do topico para buscar</b> </center> <br>
 
-            <div class="slideshow-containerr">
 
-                <div style="padding-left:20px; border: 2px solid rgb(78, 78, 78);
-                    border-radius: 5px;">
-                    <p>
 
-                        <p> <b>Nome completo:</b> {{usuario.nomecompleto}} <br> </p>
-                        <p> <b>Email:</b> {{usuario.email}} <br> </p>
-                        <p> <b>Endereço:</b> {{usuario.endereco}} <br> </p>
-                        <p> <b>Cidade:</b> {{usuario.cidade}} </p>
-                        <p> <b>Estado:</b> {{usuario.estado}}<br> </p>
-                        <p> <b>País:</b> {{usuario.pais}} </p>
-                    </p>
 
-                </div>
-                <br>
-            </div>
+            <br>
+            <br>
 
-            <center>
-                <h2>Postagens</h2>
-            </center> <br>
-            <!-- 
-<div class="divScroll">
-                <div v-for="top in postfilmes">
-                    <div v-if="top.idautor == usuario.id">
-                        <div id="mini_divScroll">
-                            <b>Topico:</b> <a :href="'postFilmes-view.html?id='+top.id">{{top.topico}}</a>
-                            (Clique para ver mais sobre esse tópico) <br>
-                            <b>Descrição do topico:</b> {{top.descricao}}
 
-                        </div>
-                    </div>
+            <!--  
+                <input type="text" placeholder="Search.." name="search" v-model="name">
+                {{name}}
+                <button type="submit" @click="submit()"> aaaa</button>
+                    -->
 
-                </div>
-            </div>
- -->
+
+            Resultado de sua busca:
+            <ul>
+                <li v-for="user in postagens">
+                    {{user.topico}}
+                </li>
+            </ul>
+
             <div class="divScroll">
-                <div v-for="top in postfilmes">
-                    <!-- 
-                        <h4>{{top}}</h4>
-                        
-                        {{top.id}} -
-                        {{top.idAutor}} -
-                        {{top.idcategoria}} -
-                        {{top.topico}} -
-                        {{top.descricao}} - -->
 
-                    <div v-if="top.idAutor == usuario.id">
-                        asd
-                        <div class="mini_divScroll_eff">
+                <div v-for="top in postagens">
+                    <div v-for="user in usuarios">
+                        <div v-if="user.id == top.idAutor">
+                            <div v-if="9 > top.idcategoria ">
+                                <div class="mini_divScroll_eff">
 
-                            <img :src="'uploads/'+top.id+'?'+new Date().getTime()" width="1000" height="400"
-                                style="margin-bottom: -50px; margin-left: 40px; margin-top: 30px;border-radius: 5px;">
-                            <div class="mini_divScroll" style="margin-bottom: 10px;">
-                                <h4>Identificação do Autor:<a :href="'user-view.html?id='+top.idautor">
-                                        #{{top.idautor}}</a> (Clique
-                                    para
-                                    ver
-                                    o perfil)</h4>
+                                    {{teste}} == {{top.idAutor}}
+                                    <div v-if="teste == top.idAutor">
+                                        <a class="button button1" :href="'post-edit.html?id='+top.id">Gerenciar
+                                            Dados</a>
+                                    </div>
 
-                                <h4>Tópico: <a :href="'postFilmes-view.html?id='+top.id">{{top.topico}}</a> (Clique para
-                                    ver
-                                    mais sobre esse tópico) </h4>
-                                <h4>Descrição do tópico: {{top.descricao}} </h4>
+
+
+
+                                    <img :src="'uploads/'+top.id+'?'+new Date().getTime()" width="1000" height="500"
+                                        style="margin-bottom: -50px; margin-left: 40px; margin-top: 30px; border-radius: 5px;">
+
+                                    <div class="mini_divScroll" style="margin-bottom: 0px;">
+
+                                        <h4>Autor: <a :href="'user-view.html?id='+top.idAutor">
+                                                {{user.username}}</a> (Clique
+                                            para
+                                            ver
+                                            o perfil)</h4>
+
+                                        <h4>Tópico: <a :href="'postFilmes-view.html?id='+top.id">{{top.topico}}</a>
+                                            (Clique
+                                            para
+                                            ver
+                                            mais sobre esse tópico) </h4>
+                                        <h4>Descrição do tópico: {{top.descricao}} </h4>
+                                    </div>
+
+                                </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
 
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-        </div> <!-- fim app -->
+
+
+        </div>
+        <!-- 
+        <div id="app3">
+            Meu nome é <input v-model="name">
+            e tenho <input v-model="age"> anos de idade.
+            <p />
+            <button @click="persist">Salvar</button>
+        </div> -->
     </div>
 
     <script>
         var app = new Vue({
             el: "#app",
             data: {
-                url: "http://localhost:8080/api/users",
-                url2: "http://localhost:8080/api/posts",
-
-                usuario: {},
-                flag: false,
-               
-                postfilmes: [],
+                url: "http://localhost:8080/api/posts/prefix",
+                url2: "http://localhost:8080/api/users",
+                //assunto: null,
+                name: null,
                 usuarios: [],
-                
-                flagSair: false,
-                flagLogin: true,
-                teste: null
+                postagens: [],
+                teste: null,
+                errors: null
             },
             created() {
-                var currentUrl = window.location.href;
-                var id = new URL(currentUrl).searchParams.get("id");
-
                 var ida = this.$session.get("id");
                 this.teste = ida;
-
-                if (this.$session.exists()) {
-                    this.flagSair = true;
-                    this.flagLogin = false;
-                }
-
-                vm = this;
-                axios.get(this.url).then(function (r) {
-                    vm.usuarios = r.data;
-                    /*
-                    if (r.data.user.length > 1) {
-                        vm.usuarios = r.data.user;
-                    } else {
-                        vm.usuarios = r.data;
-                    }*/
-                }).catch(function (error) {
-                    console.log(error);
-                });
-
-                vm = this;
-                axios.get(this.url + "/" + id).then(function (r) {
-                    vm.usuario = r.data;
-                    vm.flag = true;
-                }).catch(function (error) {
-                    console.log(error);
-                });
+                console.log(this.teste);
 
                 vm = this;
                 axios.get(this.url2).then(function (r) {
-                    vm.postfilmes = r.data;
-                    console.log(vm.postfilmes);
-                    vm.flag = true;
-                    /*
-                    if (r.data.postfilme.length > 1) {
-                        vm.postfilmes = r.data.postfilme;
-                    } else {
-                        vm.postfilmes = r.data;
-                    }*/
+                    console.log(r.data);
+                    vm.usuarios = r.data;
+
                 }).catch(function (error) {
                     console.log(error);
                 });
             },
             methods: {
-                logout() {
-                    this.$session.destroy()
-                    this.flagSair = false;
-                    this.flagLogin = true;
-                    window.location.replace("index.html");
-                },
+                persist() {
+                    localStorage.name = this.name;
+                    if (localStorage.name == '')
+                        alert('Digite um assunto que deseja buscar!')
+                    else {
 
-                deleteUser() {
-                    axios.delete(this.url + "/" + this.usuario.id).then(function (r) {
-                        console.log(r);
-                        window.location.replace('index.html')
+
+
+                        //localStorage.age = this.age;
+
+                        console.log('Agora finja que fiz mais coisas...');
+                        window.location.replace("buscarPostagem.html");
+                    }
+                },
+                voltar() {
+                    window.location.replace("index.html");
+                    localStorage.name = '';
+                },
+                submit() {
+                    vm = this;
+                    let formData = new FormData();
+                    formData.append('topico', this.name);
+                    //formData.append('password', this.usuario.password);
+
+                    axios.get(this.url, {
+                        params: {
+                            topico: vm.name
+                        }
+                    }
+                    ).then(function (r) {
+                        if (r.status == 200) {
+                            console.log(r.data);
+                            vm.postagens = r.data;
+                            //window.location.replace("index.html");
+                        }
                     }).catch(function (error) {
                         console.log(error);
+                        alert("Não foi possível buscar!");
+                        //alert("Não foi possível logar! Confira seu nome de usuário e senha!");
+                        //vm.error = "Não foi possível logar! Confira seu nome de usuário e senha!";
                     });
                 }
+            },
+            mounted() {
+                if (localStorage.name) {
+                    this.name = localStorage.name;
+                    console.log(this.name)
+                }
+
+                this.submit();
+                //if (localStorage.name) this.name = localStorage.name;
+                //if (localStorage.age) this.age = localStorage.age;
+
             }
         });
+
     </script>
 
     <footer>
@@ -309,7 +302,6 @@
             All Rights Reserved © 2016 | <a href="">Privacy Policy</a> | <a href="">Terms of Service</a>
         </div>
     </footer>
-
 
 </body>
 

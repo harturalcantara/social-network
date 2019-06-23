@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> Buscar </title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="stylesheet" href="css/estilos2.css">
+    <link rel="stylesheet" href="css/search.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/vue-router.js"></script>
+    <script src="js/vue-session.js"></script>
+    <script src="js/axios.min.js"></script>
+</head>
+
+<body>
+    <div class="header">
+        <a href="index.html"><img src="img/GraphsGeek.png " alt="" height="170" width="200"> </a>
+        <a href="index.html" style="font-size: 95px; color: white; text-decoration:none;"> <b>GraphsGeek</b></a>
+    </div>
+
+    <div class="topnav">
+        <a class="active" href="index.html">Home</a>
+    </div>
+
+
+    <div class="estrutura">
+        <div class="slideshow-containerr" style="margin-left: 10%; margin-right: 10%">
+            <center> <b style="font-size:50px"> Digite o nome do usuario para buscar</b> </center> <br>
+            <div id="app">
+
+
+
+                <br>
+                <br>
+
+
+
+                <input type="text" placeholder="Search.." name="search" v-model="name">
+                {{usuario.username}}
+                <button type="submit" @click="submit()"> aaaa</button>
+
+
+
+                Resultado de sua busca:
+                <ul>
+                    <li v-for="user in usuarios">
+                        <a :href="'user-view.html?id='+user.id">{{user.username}}</a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+        
+                <div id="app3">
+                        Meu nome é <input v-model="name">
+                        e tenho <input v-model="age"> anos de idade.
+                        <p/>
+                        <button @click="persist">Salvar</button>
+                </div>
+    </div>
+
+    <script>
+         const app3 = new Vue({
+            el: '#app3',
+            data: {
+                name: '',
+                age: 0
+            },
+            mounted() {
+                if (localStorage.name) this.name = localStorage.name;
+                if (localStorage.age) this.age = localStorage.age;
+
+            },
+            methods: {
+                persist() {
+                    localStorage.name = this.name;
+                    localStorage.age = this.age;
+                    console.log('Agora finja que fiz mais coisas...');
+                }
+            }
+        });
+
+        var app = new Vue({
+            el: "#app",
+            data: {
+                url: "http://localhost:8080/api/users/prefix",
+                usuario: {
+                    username: null,
+                    password: null
+                },
+                name: null,
+                usuarios: [],
+                errors: null
+            },
+            created() {
+
+            },
+            methods: {
+                submit() {
+                    vm = this;
+                    let formData = new FormData();
+                    formData.append('username', this.name);
+                    //formData.append('password', this.usuario.password);
+
+                    axios.get(this.url, {
+                        params: {
+                            username: vm.name
+                        }
+                    }
+                    ).then(function (r) {
+                        if (r.status == 200) {
+                            console.log(r.data);
+                            vm.usuarios = r.data;
+                            //window.location.replace("index.html");
+                        }
+                    }).catch(function (error) {
+                        console.log(error);
+                        alert("Não foi possível buscar!");
+                        //alert("Não foi possível logar! Confira seu nome de usuário e senha!");
+                        //vm.error = "Não foi possível logar! Confira seu nome de usuário e senha!";
+                    });
+                }
+            },
+            mounted() {
+                if (localStorage.name){
+                    this.name = localStorage.name;
+                    console.log(this.name)
+                } 
+                
+                this.submit();
+                //if (localStorage.name) this.name = localStorage.name;
+                //if (localStorage.age) this.age = localStorage.age;
+
+            }
+        });
+
+    </script>
+
+
+
+</body>
+
+</html>

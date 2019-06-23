@@ -58,7 +58,8 @@
                 <div v-if="flag">
                     <br>
                     <br>
-                    <center> <img class="img_perfil" :src="'uploads/'+usuario.id+'?'+new Date().getTime()" width="310" height="300"><br><br>
+                    <center> <img class="img_perfil" :src="'uploads/'+usuario.id+'?'+new Date().getTime()" width="310"
+                            height="300"><br><br>
                         <h2>
                             <p>{{usuario.username}}</p>
                         </h2>
@@ -116,28 +117,32 @@
             </div>
 
             <br>
+        </div>
+    </div> <!-- fim app -->
 
-        </div> <!-- fim app -->
-
-
-
-
-
-
-    </div>
-    <!-- 
     <div class="estrutura">
         <div class="slideshow-containerr">
+
             <div id="app2">
 
-                <h3>Adicione uma postagem</h3> <br>
+                <h3 style="margin-left: 30px"> <b> Adicione uma postagem </b></h3> <br>
+
+                <!--  
+                        <div class="form-group">
+                            <label for="idautor">idAutor: </label>
+                            <input class="form-control" type="text" v-model="idautor">
+                        </div>
+                        {{idautor}}
+        
+                        <div class="form-group">
+                            <label for="idcategoria">idcategoria: </label>
+                            <input class="form-control" type="text" v-model="idcategoria">
+                        </div>
+                        -->
+                
+
 
                 
-                                <div class="form-group">
-                                    <label for="idautor">idAutor: </label>
-                                    <input class="form-control" type="text" v-model="idautor">
-                                </div>
-
                 <div class="form-group">
                     <h4>Assunto:</h4>
                     <input class="form-control" type="text" v-model="topico">
@@ -146,47 +151,39 @@
                     <h4>Descrição:</h4>
                     <textarea name="" id="" cols="30" rows="10" v-model="descricao"></textarea>
                 </div>
+                <h4 for="">Deseja realizar postar em qual categoria?</h4>
+                <select v-model="idcategoria" class="div-select">
+                    <option v-for="option in options" v-bind:value="option.value">
+                        {{ option.text }}
+                    </option>
+                </select>
+                <br>
+                <span>Selecionado: {{ idcategoria }}</span>
                 <h4>Escolha uma imagem a inserir na postagem:
-                    <label class="btn btn-primary">
+                    <label class="btn btn-secondary">
                         Escolher arquivo <input type="file" id="file" ref="file" name="image"
                             @change="handleFileUpload()" hidden>
                     </label><br></h4>
-                <button class="button button2" type="button" @click="submit">Inserir</button>
+                <button class="button button2" type="button" @click="checkForm()"> <b> Enviar </b> </button>
+                <button class="button button2" type="button" @click="limpar"> <b> Limpar </b> </button>
                 <br><br>
+                <div v-if="errors != null">
+                    <h3>Por favor, corrija o(s) seguinte(s) erro(s):</h3>
+                </div>
+                <div v-for="error in errors" class="alert">
+                    <strong>Erro!</strong> {{error}}.
+                </div>
+
             </div>
 
         </div>
 
-    </div> -->
-    <!-- 
-    <div class="estrutura">
-   
-       
-        <div style="padding-left: 70px; padding-bottom: 70px; padding-right: 70px">
-            <div id="app2">
-                <h3>Inserir postagem em filmes</h3>
-                <div class="form-group">
-                    <label for="idautor">idAutor: </label>
-                    <input class="form-control" type="text" v-model="idautor">
-                </div>
-                <div class="form-group">
-                    <label for="topico">topico: </label>
-                    <input class="form-control" type="text" v-model="topico">
-                </div>
-                <div class="form-group">
-                    <label for="descricao">descricao: </label>
-                    <input class="form-control" type="text" v-model="descricao">
-                </div>
-                <label class="btn btn-primary">
-                    Escolher arquivo <input type="file" id="file" ref="file" name="image" @change="handleFileUpload()"
-                        hidden>
-                </label><br>
-                <button class="btn btn-primary" type="button" @click="submit">Inserir</button>
-            </div>
-        </div> 
-    </div>
-    -->
 
+
+
+
+
+    </div>
 
     <script>
         var app = new Vue({
@@ -231,7 +228,7 @@
                     console.log(error);
                 });
 
-                
+
                 vm = this;
                 axios.get(this.url2).then(function (r) {
                     vm.postagens = r.data;
@@ -259,27 +256,62 @@
                 }
             }
         });
-        /*
         var app2 = new Vue({
             el: "#app2",
             data: {
-                url3: "http://localhost:8080/api/postfilmes",
+                url3: "http://localhost:8080/api/posts",
                 idautor: null,
+                idcategoria: null,
                 topico: null,
                 descricao: null,
-                file: null
+                file: null,
+                errors: null,
+                options: [
+                    { text: 'Animes', value: '1' },
+                    { text: 'Series', value: '2' },
+                    { text: 'Filmes', value: '3' },
+                    { text: 'Games', value: '4' },
+                    { text: 'Moda Geek', value: '5' },
+                    { text: 'Notícias', value: '6' },
+                    { text: 'Tecnologias', value: '7' },
+                    { text: 'WorldGraphsGeek', value: '8' },
+                ]
             },
             created() {
                 var id2 = this.$session.get("id");
                 this.idautor = id2;
-
+                this.idcategoria = 1;
                 console.log(this.idautor);
             },
             methods: {
+                checkForm: function (e) {
+                    this.errors = [];
+                    console.log(this.errors.length);
+                    if (!this.topico) {
+                        this.errors.push('O assunto é obrigatório.');
+                    }
+                    if (!this.descricao) {
+                        this.errors.push('A descrição é obrigatória!');
+                    }
+                    if (this.file == null) {
+                        this.errors.push('O arquivo de imagem é obrigatório.');
+                    }
+                    if (!this.errors.length) {
+                        this.submit();
+                        this.errors = null;
+                        //alert('Cadastrado realizado com sucesso!');
+                        return true;
+                    }
+                    else if (this.errors.length > 0) {
+                        alert('Erro! Reveja o preenchimento dos campos!');
+                    }
+                },
                 submit() {
+                    //this.idcategoria = this.selected; //SELECIONA LOCAL ON SERA POSTADO
                     let formData = new FormData();
                     formData.append('image', this.file);
                     formData.append('idautor', this.idautor);
+                    formData.append('idcategoria', this.idcategoria);
                     formData.append('topico', this.topico);
                     formData.append('descricao', this.descricao);
                     axios.post(this.url3,
@@ -291,16 +323,21 @@
                         }
                     ).then(function (r) {
                         console.log(r.data);
-                        window.location.replace("catFilmes.html");
+                        window.location.replace("catAnimes.html");
                     }).catch(function (error) {
                         console.log(error);
+                        alert("Algum dos campos estão vazios!");
                     });
                 },
                 handleFileUpload() {
                     this.file = this.$refs.file.files[0];
+                },
+                limpar() {
+                    this.topico = null;
+                    this.descricao = null;
                 }
             }
-        });*/
+        });
     </script>
 
     <footer>

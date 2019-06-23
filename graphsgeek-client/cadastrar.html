@@ -142,7 +142,7 @@
           if (!this.usuario.username) {
             this.errors.push('O nome de usuário é obrigatório.');
           }
-          if (!this.usuario.password || this.usuario.password < 6) {
+          if (!this.usuario.password || this.usuario.password.length < 6) {
             this.errors.push('A senha é obrigatória e deve conter pelo menos 6 digitos!');
           }
           if (!this.usuario.email) {
@@ -169,10 +169,9 @@
             this.errors.push('O arquivo de imagem é obrigatório.');
           }
 
-          //console.log(this.errors.length);
           if (!this.errors.length) {
             this.submit();
-            //alert('Cadastrado realizado com sucesso!');
+            this.errors = null;
             return true;
           }
           else if (this.errors.length > 0) {

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.teste.model.Usuario;
 import com.example.teste.repository.UsuarioRepository;
 import com.example.teste.util.Upload;
+
  
 @RestController
 @RequestMapping(path = "/api/users")
@@ -32,7 +34,6 @@ public class UsuarioService {
         return new ResponseEntity<List<Usuario>>(users.findAll(), HttpStatus.OK);
         //return new ResponseEntity<List<Curso>>(cursos.findAll(new Sort(Sort.Direction.ASC, "id")), HttpStatus.OK);
     }
-    
     
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
     public ResponseEntity<Usuario> getUser(@PathVariable("id") Integer id) {
@@ -61,7 +62,7 @@ public class UsuarioService {
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public ResponseEntity<Usuario> getUser(@RequestParam("nome") String nome) {
         System.out.println(nome);
-        Usuario user = users.findByNome(nome);
+        Usuario user = users.findByUsername(nome);
  
         if (user != null) {
             return new ResponseEntity<Usuario>(user, HttpStatus.OK);
@@ -69,23 +70,41 @@ public class UsuarioService {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+    
+    @RequestMapping(value = "/prefix", method = RequestMethod.GET)
+    public ResponseEntity<List<Usuario>> getUserPrefix(String username) {
+        System.out.println(username);
+        System.out.println("estou aquiii!");
+        List<Usuario> user = users.findByUsernameContaining(username);
+ 
+        if (user.size() > 0 ) {
+            return new ResponseEntity<List<Usuario>>(user, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Usuario> addUser(String username, String password, String email, String nomecompleto, String  endereco, String  cidade, String  estado, String pais, MultipartFile image) {
-        if (username == null || password == null || username.equals("null") || password.equals("null")) {
-        	System.out.println("oi RUIM");
+        if (username == null || password == null || username.equals("null") || password.equals("null") || image == null) {
+        	System.out.println("user post - Error!");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        System.out.println("Oi usuario");
-        Usuario curso = new Usuario(null, username, password, email, nomecompleto, endereco, cidade, estado, pais);
         
+        Usuario user = users.findByUsername(username);
+        
+        if (user != null) {
+        	//System.out.println("username já existente!");
+        	return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        Usuario curso = new Usuario(null, username, password, email, nomecompleto, endereco, cidade, estado, pais);
         Usuario cursoAux = users.save(curso);
-        /*
+        
         try {
             Upload.uploadFile(image.getInputStream(), cursoAux.getId());
         } catch (IOException e) {
             e.printStackTrace();
-        }*/
+        }
  
         return new ResponseEntity<Usuario>(cursoAux, HttpStatus.OK);
     }
@@ -93,7 +112,8 @@ public class UsuarioService {
     @RequestMapping(value = "{id}", method = RequestMethod.PUT)
     public ResponseEntity<Usuario> atualizarUser(@PathVariable("id") int id, String username, String password, String email, String nomecompleto, String  endereco, String  cidade, String  estado, String pais,
             MultipartFile image) {
-        if (username == null || password == null || username.equals("null") || password.equals("null")) {
+        if (username == null || password == null || username.equals("null") || password.equals("null") || image == null) {
+        	//System.out.println("user put - erro!");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         Optional<Usuario> user = users.findById(id);

@@ -31,8 +31,6 @@
             <a href="index.html" style="font-size: 95px; color: white; text-decoration:none;"> <b>GraphsGeek</b></a>
         </div>
 
-        <!--  -->
-
         <div class="topnav">
             <a class="active" href="index.html">Home</a>
             <a v-if="flagSair" href="catAnimes.html" class="nav-link">Animes</a>
@@ -45,11 +43,11 @@
             <a v-if="flagSair" href="catWorldGraphsGeek.html" class="nav-link">WorldGraphsGeek</a>
             <a v-if="flagSair" href="user-list.html" class="nav-link">Pessoas</a>
             <div v-if="flagSair" class="search-container">
-                <form action="/action_page.php">
-
-                    <input type="text" placeholder="Pesquisar assunto..." name="search">
-                    <button type="submit"><i class="fa fa-search"></i></button>
-                </form>
+                
+                    <input type="text" v-model="name" placeholder="Pesquisar assunto..." name="search">
+                    {{name}}
+                    <button @click="persist()"><i class="fa fa-search"></i></button>
+                
             </div>
         </div>
     </div>
@@ -58,7 +56,6 @@
 
         <div class="slideshow-containerr">
             <br>
-
             <h1>Bem vindo a GraphsGeek</h1>
             <hr>
             <h4>Descrição:</h4>
@@ -170,13 +167,47 @@
                     discursivos para diferentes perfis Geek.
 
                 </p><br>
+                <!--                 <div id="app2">
+                    Meu nome é <input v-model="name">
+                    e tenho <input v-model="age"> anos de idade.
+                    <p />
+                    <button @click="persist">Salvar</button>
+                    <button @click="sair()">remover</button>
+                </div> -->
 
             </div>
         </div>
     </div>
 
     <script>
+        /*
+        var app2 = new Vue({
+            el: '#app2',
+            data: {
+                name: '',
+                age: 0
+            },
+            mounted() {
+                if (localStorage.name) this.name = localStorage.name;
+                if (localStorage.age) this.age = localStorage.age;
+            },
+            methods: {
+                persist() {
+                    localStorage.name = this.name;
+                    localStorage.age = this.age;
 
+                    console.log('Agora finja que fiz mais coisas...');
+                    window.location.replace("buscarPostagem.html");
+                },
+                sair() {
+                    this.$session.destroy()
+                    this.flagSair = false;
+                    this.flagLogin = true;
+                    localStorage.clear();
+                    window.location.replace("index.html");
+                }
+            }
+        });*/
         var app = new Vue({
             el: "#app",
             data: {
@@ -184,8 +215,10 @@
                 usuarios: [],
                 flagSair: false,
                 flagLogin: true,
+                name: null,
                 teste: null
             },
+       
             created() {
                 var ida = this.$session.get("id");
                 this.teste = ida;
@@ -197,16 +230,34 @@
                 }
                 vm = this;
                 axios.get(this.url).then(function (r) {
-                        vm.usuarios = r.data;
+                    vm.usuarios = r.data;
                 }).catch(function (error) {
                     console.log(error);
                 });
             },
+            mounted() {
+                if (localStorage.name) this.name = localStorage.name;
+                if (localStorage.age) this.age = localStorage.age;
+            },
             methods: {
+                persist() {
+
+                    localStorage.name = this.name;
+                    console.log(this.name);
+                    if (!this.name || this.name == null || this.name == 'null' || this.name == ''){
+                        alert('Digite um assunto que deseja buscar!');
+                    }
+                    else{
+                        console.log('Agora finja que fiz mais coisas...');
+                        window.location.replace("buscarPostagem.html");
+                    }
+                },
                 logout() {
                     this.$session.destroy()
                     this.flagSair = false;
                     this.flagLogin = true;
+                    localStorage.clear();
+                    window.location.replace("index.html");
                 }
             }
         });
@@ -254,7 +305,7 @@
 
     </script>
 
-<footer>
+    <footer>
         <div class="centered clearfix">
             <div class="footer-logo">
 

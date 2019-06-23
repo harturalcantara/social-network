@@ -45,12 +45,9 @@
             <a v-if="flagSair" href="catWorldGraphsGeek.html" class="nav-link">WorldGraphsGeek</a>
             <a v-if="flagSair" href="user-list.html" class="nav-link">Pessoas</a>
 
-            <div class="search-container">
-                <form action="/action_page.php">
-
-                    <input type="text" placeholder="Pesquisar assunto..." name="search">
-                    <button type="submit"><i class="fa fa-search"></i></button>
-                </form>
+            <div v-if="flagSair" class="search-container">
+                <input type="text" v-model="name" placeholder="Pesquisar assunto..." name="search">
+                <button @click="persist"><i class="fa fa-search"></i></button>
             </div>
         </div>
 
@@ -102,7 +99,7 @@
             <center>
                 <h2>Postagens dos usuários</h2>
             </center>
-
+            <!-- 
             <h3>Lista de Usuarios (BUSCAR)</h3>
             <div class="form-group">
                     <label for="idcategoria">idcategoria: </label>
@@ -124,19 +121,27 @@
                     <img :src="'uploads/'+curso.id+'?'+new Date().getTime()" width="200" height="200"><br><br>
                 </li>
             </ul>
+            -->
 
-
+            id --> {{this.teste}}
             <div class="divScroll">
+
                 <div v-for="top in postfilmes">
-
                     <div v-for="user in usuarios">
-
                         <div v-if="user.id == top.idAutor">
-
                             <div v-if="top.idcategoria == 1">
                                 <div class="mini_divScroll_eff">
 
-                                    <img :src="'uploads/'+top.id+'?'+new Date().getTime()" width="1000" height="400"
+                                    {{teste}} == {{top.idAutor}}
+                                    <div v-if="teste == top.idAutor">
+                                        <a class="button button1" :href="'post-edit.html?id='+top.id">Gerenciar
+                                            Dados</a>
+                                    </div>
+
+
+
+
+                                    <img :src="'uploads/'+top.id+'?'+new Date().getTime()" width="1000" height="500"
                                         style="margin-bottom: -50px; margin-left: 40px; margin-top: 30px; border-radius: 5px;">
 
                                     <div class="mini_divScroll" style="margin-bottom: 0px;">
@@ -177,7 +182,7 @@
 
                 <h3 style="margin-left: 30px"> <b> Adicione uma postagem </b></h3> <br>
 
-                <!--  -->
+                <!--  
                 <div class="form-group">
                     <label for="idautor">idAutor: </label>
                     <input class="form-control" type="text" v-model="idautor">
@@ -188,12 +193,12 @@
                     <label for="idcategoria">idcategoria: </label>
                     <input class="form-control" type="text" v-model="idcategoria">
                 </div>
+                -->
 
                 <div class="form-group">
                     <h4>Assunto:</h4>
                     <input class="form-control" type="text" v-model="topico">
                 </div>
-                Assunto: {{topico}}
                 <div class="form-group">
                     <h4>Descrição:</h4>
                     <textarea name="" id="" cols="30" rows="10" v-model="descricao"></textarea>
@@ -203,18 +208,54 @@
                         Escolher arquivo <input type="file" id="file" ref="file" name="image"
                             @change="handleFileUpload()" hidden>
                     </label><br></h4>
-                <button class="button button2" type="button" @click="submit"> <b> Enviar </b> </button>
+                <button class="button button2" type="button" @click="checkForm()"> <b> Enviar </b> </button>
                 <button class="button button2" type="button" @click="limpar"> <b> Limpar </b> </button>
                 <br><br>
+                <div v-if="errors != null">
+                    <h3>Por favor, corrija o(s) seguinte(s) erro(s):</h3>
+                </div>
+                <div v-for="error in errors" class="alert">
+                    <strong>Erro!</strong> {{error}}.
+                </div>
+
             </div>
 
         </div>
+
+
 
     </div>
 
 
 
     <script>
+        var app3 = new Vue({
+            el: '#app3',
+            data: {
+                name: '',
+                age: 0
+            },
+            mounted() {
+                if (localStorage.name) this.name = localStorage.name;
+                if (localStorage.age) this.age = localStorage.age;
+            },
+            methods: {
+                persist() {
+                    localStorage.name = this.name;
+                    localStorage.age = this.age;
+
+                    console.log('Agora finja que fiz mais coisas...');
+                    window.location.replace("buscarPostagem.html");
+                },
+                sair() {
+                    this.$session.destroy()
+                    this.flagSair = false;
+                    this.flagLogin = true;
+                    localStorage.clear();
+                    window.location.replace("index.html");
+                }
+            }
+        });
         var app = new Vue({
             el: "#app",
             data: {
@@ -227,7 +268,8 @@
                 flagSair: false,
                 flagLogin: true,
                 teste: null,
-                string: null
+                string: null,
+                name: null,
             },
             created() {
                 var ida = this.$session.get("id");
@@ -287,13 +329,35 @@
                 });
             },
             methods: {
+
+                persist() {
+                    localStorage.name = this.name;
+                    if (!this.name || this.name == null || this.name == 'null' || this.name == '')
+                        alert('Digite um assunto que deseja buscar!')
+                    else {
+                        console.log('Agora finja que fiz mais coisas...');
+                        window.location.replace("buscarPostagem.html");
+                    }
+                },
                 logout() {
                     this.$session.destroy()
                     this.flagSair = false;
                     this.flagLogin = true;
                     window.location.replace("index.html");
                 }
+            },
+            mounted() {
+                if (localStorage.name) {
+                    this.name = localStorage.name;
+                    console.log(this.name)
+                }
+
+                this.submit();
+                //if (localStorage.name) this.name = localStorage.name;
+                //if (localStorage.age) this.age = localStorage.age;
+
             }
+
         });
 
         var app2 = new Vue({
@@ -304,7 +368,8 @@
                 idcategoria: null,
                 topico: null,
                 descricao: null,
-                file: null
+                file: null,
+                errors: null
             },
             created() {
                 var id2 = this.$session.get("id");
@@ -313,15 +378,35 @@
                 console.log(this.idautor);
             },
             methods: {
+                checkForm: function (e) {
+                    this.errors = [];
+                    console.log(this.errors.length);
+                    if (!this.topico) {
+                        this.errors.push('O assunto é obrigatório.');
+                    }
+                    if (!this.descricao) {
+                        this.errors.push('A descrição é obrigatória!');
+                    }
+                    if (this.file == null) {
+                        this.errors.push('O arquivo de imagem é obrigatório.');
+                    }
+                    if (!this.errors.length) {
+                        this.submit();
+                        this.errors = null;
+                        //alert('Cadastrado realizado com sucesso!');
+                        return true;
+                    }
+                    else if (this.errors.length > 0) {
+                        alert('Erro! Reveja o preenchimento dos campos!');
+                    }
+                },
                 submit() {
-                    //console.log("Deu mt ruim!");
                     let formData = new FormData();
                     formData.append('image', this.file);
                     formData.append('idautor', this.idautor);
                     formData.append('idcategoria', this.idcategoria);
                     formData.append('topico', this.topico);
                     formData.append('descricao', this.descricao);
-
                     axios.post(this.url3,
                         formData,
                         {
@@ -341,6 +426,7 @@
                     this.file = this.$refs.file.files[0];
                 },
                 limpar() {
+                    this.topico = null;
                     this.descricao = null;
                 }
             }
@@ -374,7 +460,7 @@
         <div class="centered clearfix">
             <div class="footer-logo">
 
-                <a href="index.html"> <img class="logo" src="front/img/GraphsGeek.png"
+                <a href="index.html"> <img class="logo" src="img/GraphsGeek.png"
                         style="height: 150px; width: 170px; margin-left: 35px; "> </a>
 
 

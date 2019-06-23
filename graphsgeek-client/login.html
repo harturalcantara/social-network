@@ -21,7 +21,7 @@
 
 <body>
     <div class="header">
-        <a href="index.html"><img src="front/img/GraphsGeek.png " alt="" height="170" width="200"> </a>
+        <a href="index.html"><img src="img/GraphsGeek.png " alt="" height="170" width="200"> </a>
         <a href="index.html" style="font-size: 95px; color: white; text-decoration:none;"> <b>GraphsGeek</b></a>
     </div>
 
@@ -31,44 +31,68 @@
 
 
     <div class="estrutura">
-        <div class="slideshow-containerr">
+        <div class="slideshow-containerr" style="margin-left: 10%; margin-right: 10%">
             <center> <img src="img/person_icon.png" alt="Avatar" class="avatar" height="200px"> </center>
-            <div id="app">                 
-                <label for="">Usuário:</label>
-                <input class="form-control" type="text" v-model="username"><br>
+            <div id="app">
+                <label>Usuário:</label>
+                <input class="form-control" type="text" v-model="usuario.username"><br>
                 <label for="">Senha:</label>
-                <input class="form-control" type="password" v-model="password"><br><br>
+                <input class="form-control" type="password" v-model="usuario.password"><br><br>
 
                 <a href="index.html"> <button class="button button2" type="button">Cancel</button> </a>
-                <button class="button button2" type="button" @click="submit">Logar</button><br>
-                <p style="color: red">{{error}}</p>
+                <button class="button button2" type="button" @click="checkForm()">Logar</button><br>
+                <div v-if="errors != null">
+                    <h3>Por favor, corrija o(s) seguinte(s) erro(s):</h3>
+                </div>
+                <div v-for="error in errors" class="alert">
+                    <strong>Erro!</strong> {{error}}.
+                </div>
+
                 <br>
                 <br>
             </div>
         </div>
     </div>
 
-
-
-
     <script>
         var app = new Vue({
             el: "#app",
             data: {
                 url: "http://localhost:8080/api/users/login",
-                username: null,
-                password: null,
-                error: null
+                usuario: {
+                    username: null,
+                    password: null
+                },
+                errors: null
             },
             created() {
 
             },
             methods: {
+                checkForm: function (e) {
+                    this.errors = [];
+                    console.log(this.errors.length);
+                    if (!this.usuario.username) {
+                        this.errors.push('O nome de usuário é obrigatório.');
+                    }
+                    if (!this.usuario.password || this.usuario.password < 6) {
+                        this.errors.push('A senha é obrigatória e deve conter pelo menos 6 digitos!');
+                    }
+                    if (!this.errors.length) {
+                        this.submit();
+                        this.errors = null;
+                        //alert('Cadastrado realizado com sucesso!');
+                        return true;
+                    }
+                    else if (this.errors.length > 0) {
+                        alert('Erro! Reveja o preenchimento dos campos!');
+                    }
+                },
                 submit() {
                     vm = this;
                     let formData = new FormData();
-                    formData.append('username', this.username);
-                    formData.append('password', this.password);
+                    formData.append('username', this.usuario.username);
+                    formData.append('password', this.usuario.password);
 
                     axios.post(this.url,
                         formData,

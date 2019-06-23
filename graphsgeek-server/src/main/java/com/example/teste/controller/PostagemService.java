@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -29,8 +30,8 @@ public class PostagemService {
  
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<Postagem>> getPostagens() {
-        return new ResponseEntity<List<Postagem>>(posts.findAll(), HttpStatus.OK);
-        //return new ResponseEntity<List<Curso>>(cursos.findAll(new Sort(Sort.Direction.ASC, "id")), HttpStatus.OK);
+        //return new ResponseEntity<List<Postagem>>(posts.findAll(), HttpStatus.OK);
+        return new ResponseEntity<List<Postagem>>(posts.findAll(new Sort(Sort.Direction.DESC, "id")), HttpStatus.OK); //ASC crescente
     }
     
     
@@ -43,6 +44,20 @@ public class PostagemService {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }      
+    }
+    
+    @RequestMapping(value = "/prefix", method = RequestMethod.GET)
+    public ResponseEntity<List<Postagem>> getPostagemPrefix(String topico) {
+        System.out.println(topico);
+        System.out.println("estou aquiii!");
+        List<Postagem> user = posts.findByTopicoContaining(topico);
+        
+        System.out.println(user.toString());
+        if (user.size() > 0 ) {
+            return new ResponseEntity<List<Postagem>>(user, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
     
    
@@ -106,6 +121,7 @@ public class PostagemService {
  
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deletarPostagem(@PathVariable("id") int id) {
+    	
         if(posts.existsById(id)) {
         	posts.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
