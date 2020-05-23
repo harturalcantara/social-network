@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+  <title> Cadastrar </title>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/estilos.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="js/jquery.min.js"></script>
+  <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/vue.js"></script>
+  <script src="js/vue-router.js"></script>
+  <script src="js/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+
+<body>
+  <div class="header">
+    <a href="index.html"><img src="img/GraphsGeek.png " alt="" height="170" width="200"> </a>
+    <a href="index.html" style="font-size: 95px; color: white; text-decoration:none;"> <b>GraphsGeek</b></a>
+  </div>
+
+  <div class="topnav">
+    <a class="active" href="index.html">Home</a>
+  </div>
+
+
+  <div class="estrutura est_cadastro">
+
+    <form id="form">
+      <br>
+      <br>
+      <center> <b style="font-size:50px"> Preencha o formulário abaixo </b> </center> <br>
+
+      <div class="est_cadastro2">
+        <div id="app">
+
+          <div class="form-group">
+            <label for="username"> Defina seu nome de Usuário: </label>
+            <input name="nome" v-model="usuario.username" type="text" class="form-control" placeholder="Usuário..."
+              pattern="[a-zA-Z0-9]+" required>
+          </div>
+
+          <div class="form-group">
+            <label for="password"> Defina sua Senha: </label>
+            <input v-model="usuario.password" type="password" class="form-control" minlength="5" placeholder="Senha..."
+              pattern="[a-zA-Z0-9]+" required>
+          </div>
+
+          <div class="form-group">
+            <label for="inputAddress">Defina seu email:</label>
+            <input v-model="usuario.email" type="text" class="form-control" id="email" placeholder="Usuário...">
+            <td>
+              <div id="msgeu"></div>
+            </td>
+          </div>
+
+          <div class="form-group">
+            <label for="inputAddress">Nome completo:</label>
+            <input type="text" v-model="usuario.nomecompleto" class="form-control" id="nomecompleto" placeholder="Usuário...">
+            <td>
+              <div id="msgeu"></div>
+            </td>
+          </div>
+
+          <div class="form-group">
+            <label for="inputAddress">Endereço:</label>
+            <input v-model="usuario.endereco" type="text" class="form-control" id="inputAddress"
+              placeholder="Rua:..., Bairro:..., Nº:..." required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label for="inputCity">Cidade:</label>
+              <input v-model="usuario.cidade" type="text" class="form-control" id="cidade" placeholder="Cidade..."
+                required>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label for="inputCity">Estado:</label>
+              <input v-model="usuario.estado" type="text" class="form-control" id="estado" placeholder="Estado..."
+                required>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label for="inputCity">País:</label>
+              <input v-model="usuario.pais" type="text" class="form-control" id="pais" placeholder="País..."
+                required>
+            </div>
+          </div>
+          <h5>Escolha uma imagem de perfil:
+              <label class="btn btn-secondary">
+                  Escolher arquivo <input type="file" id="file" ref="file" name="image"
+                      @change="handleFileUpload()" hidden>
+              </label><br></h5>
+
+          <a href="index.html"> <button class="button button2" type="button"> Cancelar </button> </a>
+          <button class="button button2" type="button" @click="checkForm()">Cadastrar</button>
+
+          <br>
+          <br>
+          <div v-if="errors != null">
+            <h3>Por favor, corrija o(s) seguinte(s) erro(s):</h3>
+          </div>
+          <div v-for="error in errors" class="alert">
+            <strong>Erro!</strong> {{error}}.
+          </div>
+
+        </div> <!-- Fim app -->
+        <br><br><br>
+      </div>
+    </form>
+  </div>
+
+
+  <script>
+    var app = new Vue({
+      el: "#app",
+      data: {
+        url: "http://localhost:8080/api/users",
+        usuario: {
+          username: null,
+          password: null,
+          email: null,
+          nomecompleto: null,
+          endereco: null,
+          cidade: null,
+          estado: null,
+          pais: null,
+          file: null,
+        },
+        errors: null,
+        teste: null
+      },
+      methods: {
+        checkForm: function (e) {
+          this.errors = [];
+          console.log(this.errors.length);
+          if (!this.usuario.username) {
+            this.errors.push('O nome de usuário é obrigatório.');
+          }
+          if (!this.usuario.password || this.usuario.password.length < 6) {
+            this.errors.push('A senha é obrigatória e deve conter pelo menos 6 digitos!');
+          }
+          if (!this.usuario.email) {
+            this.errors.push('O e-mail é obrigatório.');
+          } else if (!this.validEmail(this.usuario.email)) {
+            this.errors.push('Utilize um e-mail válido.');
+          }
+          if (!this.usuario.nomecompleto) {
+            this.errors.push('O nome completo é obrigatório.');
+          }
+          if (!this.usuario.endereco) {
+            this.errors.push('O endereço é obrigatório.');
+          }
+          if (!this.usuario.cidade) {
+            this.errors.push('A cidade é obrigatório.');
+          }
+          if (!this.usuario.estado) {
+            this.errors.push('O estado é obrigatório.');
+          }
+          if (!this.usuario.pais) {
+            this.errors.push('O país é obrigatório.');
+          }
+          if (this.usuario.file == null) {
+            this.errors.push('O arquivo de imagem é obrigatório.');
+          }
+
+          if (!this.errors.length) {
+            this.submit();
+            this.errors = null;
+            return true;
+          }
+          else if (this.errors.length > 0) {
+            alert('Erro! Reveja o preenchimento dos campos!');
+          }
+        },
+        validEmail: function (email) {
+          var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+          return re.test(email);
+        },
+
+        submit() {
+          vm = this;
+          let formData = new FormData();
+          formData.append('image', this.usuario.file);
+          formData.append('username', this.usuario.username);
+          formData.append('password', this.usuario.password);
+          formData.append('nomecompleto', this.usuario.nomecompleto);
+          formData.append('email', this.usuario.email);
+          formData.append('endereco', this.usuario.endereco);
+          formData.append('cidade', this.usuario.cidade);
+          formData.append('estado', this.usuario.estado);
+          formData.append('pais', this.usuario.pais);
+
+          axios.post(this.url,
+            formData,
+            {
+              headers: {
+                'Content-Type': 'multipart/form-data'
+              }
+            }
+          ).then(function (r) {
+            alert('Cadastrado realizado com sucesso!');
+            window.location.replace("index.html");
+          }).catch(function (error) {
+            //console.log("erro");
+            alert("Nome de usuário já existente, por favor altere!");
+          });
+        },
+        handleFileUpload() {
+          this.usuario.file = this.$refs.file.files[0];
+        }
+      }
+
+    });
+  </script>
+
+
+
+
+</body>
+
+</html>

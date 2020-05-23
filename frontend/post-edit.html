@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Atualizar</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/vue-router.js"></script>
+    <script src="js/axios.min.js"></script>
+    <script src="js/vue-session.js"></script>
+</head>
+
+<body>
+
+    <div class="header">
+        <a href="index.html"><img src="img/GraphsGeek.png " alt="" height="170" width="200"> </a>
+        <a href="index.html" style="font-size: 95px; color: white; text-decoration:none;"> <b>GraphsGeek</b></a>
+    </div>
+
+    <div class="topnav">
+        <a class="active" href="index.html">Home</a>
+    </div>
+    <div id="app">
+        <div class="estrutura est_cadastro">
+            <br>
+            <br>
+            <center for=""> <b style="font-size:50px">Atualizar dados da Postagem</b> </center> <br>
+            <div class=container>
+                <div v-if="flag">
+                    <div class="form-group">
+                        <label for="topico">Assunto: </label>
+                        <input class="form-control" type="text" v-model="post.topico" :value="post.topico">
+                    </div>
+                    <div class="form-group">
+                        <label for="descricao">Descrição: </label>
+                        <input class="form-control" type="text" v-model="post.descricao" :value="post.descricao">
+                    </div>
+
+
+                    <h5>Escolha uma imagem de perfil:
+                        <label class="btn btn-secondary">
+                            Escolher arquivo <input type="file" id="file" ref="file" name="image"
+                                @change="handleFileUpload()" hidden>
+                        </label><br></h5>
+
+                    <button class="btn btn-primary" type="button" @click="checkForm()">Atualizar Dados </button>
+                    <button class="btn btn-danger" type="button" @click="deleteUser">Excluir postagem</button>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div v-if="errors != null">
+                <h3>Por favor, corrija o(s) seguinte(s) erro(s):</h3>
+            </div>
+            <div v-for="error in errors" class="alert">
+                <strong>Erro!</strong> {{error}}.
+            </div>
+        </div>
+
+        <script>
+            var app = new Vue({
+                el: "#app",
+                data: {
+                    url: "http://localhost:8080/api/posts",
+                    post: {},
+                    file: null,
+                    postagens: [],
+                    errors: null,
+                    flagSair: false,
+                    flagLogin: true,
+                    flag: false
+                },
+                created() {
+                    var currentUrl = window.location.href;
+                    var id = new URL(currentUrl).searchParams.get("id");
+
+                    if (this.$session.exists()) {
+                        this.flagSair = true;
+                        this.flagLogin = false;
+                    }
+
+                    vm = this;
+                    axios.get(this.url).then(function (r) {
+                        vm.postagens = r.data;
+
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+
+                    vm = this;
+                    axios.get(this.url + "/" + id).then(function (r) {
+                        vm.post = r.data;
+                        console.log(vm.post);
+                        vm.flag = true;
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                },
+                methods: {
+                    checkForm: function (e) {
+                        this.errors = [];
+                        console.log(this.errors.length);
+                        if (!this.post.topico) {
+                            this.errors.push('O assunto é obrigatório!');
+                        }
+                        if (!this.post.descricao) {
+                            this.errors.push('A senha é obrigatória e deve conter pelo menos 6 digitos!');
+                        }
+                        if (this.file == null) {
+                            this.errors.push('O arquivo de imagem é obrigatório.');
+                        }
+
+                        if (!this.errors.length) {
+                            this.submit();
+                            this.errors = null;
+                            return true;
+                        }
+                        else if (this.errors.length > 0) {
+                            alert('Erro! Reveja o preenchimento dos campos!');
+                        }
+                    },
+                    submit() {
+                        var currentUrl = window.location.href;
+                        var id = new URL(currentUrl).searchParams.get("id");
+                        let formData = new FormData();
+                        formData.append('image', this.file);
+                        formData.append('topico', this.post.topico);
+                        formData.append('descricao', this.post.descricao);
+
+                        axios.put(this.url + "/" + this.post.id,
+                            formData,
+                            {
+                                headers: {
+                                    'Content-Type': 'multipart/form-data'
+                                }
+                            }
+                        ).then(function (r) {
+                            //console.log(r.data);
+                            //console.log(r.data.id);
+                            alert("Dados atualizados!");
+                            window.history.back();
+                            //window.location.replace("user-perfil-view.html?id=" + r.data.id);
+                        }).catch(function (error) {
+                            console.log(error);
+                            alert("Erro!");
+                        });
+                    },
+                    handleFileUpload() {
+                        this.file = this.$refs.file.files[0];
+                    },
+                    deleteUser() {
+
+
+                        axios.delete(this.url + "/" + this.post.id).then(function (r) {
+                            //console.log(r);
+                            alert('Postagem excluida com sucesso!')
+                            window.history.back();
+                            //window.location.replace('index.html')
+                        }).catch(function (error) {
+                            console.log(error);
+                        });
+                    },
+                    logout() {
+                        this.$session.destroy()
+                        this.flagSair = false;
+                        this.flagLogin = true;
+                    }
+                }
+            });
+        </script>
+</body>
+
+</html>
