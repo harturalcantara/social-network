@@ -1,5 +1,3 @@
-# Projeto Rede Social
+# Social Network
 
-**Proposta: Rede Social**
-
-**Will be updated soon...**
+**Description: Will be updated soon...**
