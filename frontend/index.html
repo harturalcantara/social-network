@@ -21,14 +21,14 @@
 <body>
     <div id="app">
         <div class="header">
-            <a href="index.html"><img src="img/GraphsGeek.png " alt="" height="170" width="200"> </a>
+            <a href="index.html"><img src="images/GraphsGeek.png " alt="" height="100" width="120"> </a>
             <div class="header-right">
                 <a v-if="flagLogin" href="login.html" class="button button1">Login</a>
                 <a v-if="flagLogin" href="cadastrar.html" class="button button1">Cadastrar</a>
                 <a v-if="flagSair" :href="'user-perfil-view.html?id='+teste" class="button button1">Perfil</a>
                 <button v-if="flagSair" class="button button1" type="button" @click="logout">Sair</button>
             </div>
-            <a href="index.html" style="font-size: 95px; color: white; text-decoration:none;"> <b>GraphsGeek</b></a>
+            <a href="index.html" style="font-size: 60px; color: white; text-decoration:none;"> <b>Social Network</b></a>
         </div>
 
         <div class="topnav">
@@ -43,49 +43,44 @@
             <a v-if="flagSair" href="catWorldGraphsGeek.html" class="nav-link">WorldGraphsGeek</a>
             <a v-if="flagSair" href="user-list.html" class="nav-link">Pessoas</a>
             <div v-if="flagSair" class="search-container">
-                
-                    <input type="text" v-model="name" placeholder="Pesquisar assunto..." name="search">
-                   
-                    <button @click="persist()"><i class="fa fa-search"></i></button>
-                
+                <input type="text" v-model="name" placeholder="Pesquisar assunto..." name="search">
+                <button @click="persist()"><i class="fa fa-search"></i></button>
             </div>
         </div>
     </div>
 
     <div class=estrutura>
-
         <div class="slideshow-containerr">
             <br>
-            <h1>Bem vindo a GraphsGeek</h1>
+            <h1>Bem vindo a Social Network</h1>
             <hr>
             <h4>Descrição:</h4>
             <p class="recuo">
-                A Graphs Geek terá como um propósito de trazer o universo Geek(nerd) para a vida das pessoas
-                Queremos tornar este universo acessivel para todos de um modo fácil e funcional.
-                O universo Geek é composto por diferentes veiculos, como filmes, quadrinho, animes, series,
-                jogos e
-                jogos. A Graphs Geek adota todas as franquias criadas, por isso,teremos um acervo variado de
-                tópicos
-                discursivos para diferentes perfis Geek.
-            </p><br>
+                O universo Nerd é composto por diferentes veiculos, como filmes, quadrinho, animes, series,
+                jogos e jogos. Adotando todas as franquias criadas, por isso,teremos um acervo variado de
+                tópicos discursivos para diferentes perfis Geek.
 
+                A Social Network (SN) terá como um propósito de trazer o universo Nerd para a vida das pessoas.
+                Queremos tornar este universo acessivel para todos, de um modo fácil e funcional.
+
+            </p>
+            <br />
             <div class="slideshow-containerr">
-
                 <div class="mySlidess fade">
                     <div class="numbertext">1 / 3</div>
-                    <img src="/img/filmes2.jpg" style="width:100%">
+                    <img src="/images/filmes2.jpg" style="width:100%">
 
                 </div>
 
                 <div class="mySlidess fade">
                     <div class="numbertext">2 / 3</div>
-                    <img src="/img/filmes1.png" style="width:100%">
+                    <img src="/images/filmes1.png" style="width:100%">
 
                 </div>
 
                 <div class="mySlidess fade">
                     <div class="numbertext">3 / 3</div>
-                    <img src="/img/filmes3.jpg" style="width:100%">
+                    <img src="/images/" style="width:100%">
 
                 </div>
 
@@ -117,12 +112,8 @@
                 <a class="next" onclick="plusSlides(1, 0)">&#10095;</a>
             </div>
 
-
-
-
             <br>
             <div class="slideshow-containerr">
-
                 <p class="recuo">
                     A Graphs Geek terá como um propósito de trazer o universo Geek(nerd) para a vida das pessoas
                     Queremos tornar este universo acessivel para todos de um modo fácil e funcional.
@@ -131,83 +122,34 @@
                     jogos. A Graphs Geek adota todas as franquias criadas, por isso,teremos um acervo variado de
                     tópicos
                     discursivos para diferentes perfis Geek.
-
                 </p><br>
-
             </div>
 
             <div class="slideshow-container">
                 <div class="mySlides2">
-                    <img src="/img/filmes3.jpg" style="width:100%">
-                </div>
-
-                <div class="mySlides2">
-                    <img src="/img/filmes3.jpg" style="width:100%">
-                </div>
-
-                <div class="mySlides2">
-                    <img src="/img/filmes1.png" style="width:100%">
+                    <img src="img/filmes1.png" style="width:100%">
                 </div>
 
                 <a class="prev" onclick="plusSlides(-1, 1)">&#10094;</a>
                 <a class="next" onclick="plusSlides(1, 1)">&#10095;</a>
             </div>
-
-
             <br>
             <div class="slideshow-containerr">
 
                 <p class="recuo">
-                    A Graphs Geek terá como um propósito de trazer o universo Geek(nerd) para a vida das pessoas
+                    A NS terá como um propósito de trazer o universo Geek(nerd) para a vida das pessoas
                     Queremos tornar este universo acessivel para todos de um modo fácil e funcional.
                     O universo Geek é composto por diferentes veiculos, como filmes, quadrinho, animes, series,
                     jogos e
                     jogos. A Graphs Geek adota todas as franquias criadas, por isso,teremos um acervo variado de
                     tópicos
                     discursivos para diferentes perfis Geek.
-
                 </p><br>
-                <!--                 <div id="app2">
-                    Meu nome é <input v-model="name">
-                    e tenho <input v-model="age"> anos de idade.
-                    <p />
-                    <button @click="persist">Salvar</button>
-                    <button @click="sair()">remover</button>
-                </div> -->
-
             </div>
         </div>
     </div>
 
     <script>
-        /*
-        var app2 = new Vue({
-            el: '#app2',
-            data: {
-                name: '',
-                age: 0
-            },
-            mounted() {
-                if (localStorage.name) this.name = localStorage.name;
-                if (localStorage.age) this.age = localStorage.age;
-            },
-            methods: {
-                persist() {
-                    localStorage.name = this.name;
-                    localStorage.age = this.age;
-
-                    console.log('Agora finja que fiz mais coisas...');
-                    window.location.replace("buscarPostagem.html");
-                },
-                sair() {
-                    this.$session.destroy()
-                    this.flagSair = false;
-                    this.flagLogin = true;
-                    localStorage.clear();
-                    window.location.replace("index.html");
-                }
-            }
-        });*/
         var app = new Vue({
             el: "#app",
             data: {
@@ -218,7 +160,7 @@
                 name: null,
                 teste: null
             },
-       
+
             created() {
                 var ida = this.$session.get("id");
                 this.teste = ida;
@@ -244,10 +186,10 @@
 
                     localStorage.name = this.name;
                     console.log(this.name);
-                    if (!this.name || this.name == null || this.name == 'null' || this.name == ''){
+                    if (!this.name || this.name == null || this.name == 'null' || this.name == '') {
                         alert('Digite um assunto que deseja buscar!');
                     }
-                    else{
+                    else {
                         console.log('Agora finja que fiz mais coisas...');
                         window.location.replace("buscarPostagem.html");
                     }
@@ -309,10 +251,8 @@
         <div class="centered clearfix">
             <div class="footer-logo">
 
-                <a href="index.html"> <img class="logo" src="/img/GraphsGeek.png"
+                <a href="index.html"> <img class="logo" src="/images/GraphsGeek.png"
                         style="height: 150px; width: 170px; margin-left: 35px; "> </a>
-
-
                 <div class="social">
                     <a href="https://www.facebook.com/" class="facebook">
                         <svg viewBox="0 0 33 33">
@@ -345,20 +285,17 @@
             </div>
 
             <div class="footer-contact">
-                <h3><a href="">GraphsGeek</a></h3>
-
-                <p><a href="">Conectando o mundo!</a></p>
+                <h3><a href="">Social Network</a></h3>
+                <p><a href="">Conecting the world!</a></p>
             </div>
 
             <div class="footer-navigation">
                 <div class="footer-links-holder">
-
                     <ul class="footer-links">
                         <h3><a href="">Endereço</a></h3>
-                        <p><a href="mailto:">graphsgeek@email.com</a></p>
+                        <p><a href="mailto:">socialnetwork@email.com</a></p>
                         <p><a href="tel:">+55-(88)9890-1022</a></p>
                         <p><a href="">286 Fake St<br />Fake, PA 11111</a></p>
-
                     </ul>
                 </div>
 
@@ -376,7 +313,6 @@
                         <li><a href="">facebook/graphsgeek.com</a></li>
                         <li><a href="">instagram/graphsgeek.com</a></li>
                         <li><a href="">youtube/graphsgeek.com</a></li>
-
                     </ul>
                 </div>
 
