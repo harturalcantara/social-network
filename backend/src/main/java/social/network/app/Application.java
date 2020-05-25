@@ -1,13 +1,13 @@
-package com.example.teste;
+package social.network.app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class TesteApplication {
+public class Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(TesteApplication.class, args);
+		SpringApplication.run(Application.class, args);
 	}
 
 }
