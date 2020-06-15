@@ -21,14 +21,13 @@
 <body>
     <div id="app">
         <div class="header">
-            <a href="index.html"> <img src="images/icons/logo.png" alt="" height="100" width="120"> </a>
             <div class="header-right">
                 <a v-if="flagLogin" href="login.html" class="button button1">Log in</a>
                 <a v-if="flagLogin" href="cadastrar.html" class="button button1">Sign up</a>
                 <a v-if="flagSair" :href="'user-perfil-view.html?id='+teste" class="button button1">Perfil</a>
                 <button v-if="flagSair" class="button button1" type="button" @click="logout">Sair</button>
             </div>
-            <a href="index.html" style="font-size: 60px; color: white; text-decoration:none;"> <b>Social Network</b></a>
+            <a href="index.html" style="font-size: 50px; color: white; text-decoration:none;"> <b> Social Network </b></a>
         </div>
 
         <div class="topnav">
@@ -96,8 +95,7 @@
                 <a class="prev" onclick="plusSlides(-1, 0)">&#10094;</a>
                 <a class="next" onclick="plusSlides(1, 0)">&#10095;</a>
             </div>
-
-            <br>
+            
             <div class="slideshow-containerr">
                 <p class="recuo">
                     A Graphs Geek terá como um propósito de trazer o universo Geek(nerd) para a vida das pessoas
@@ -110,17 +108,8 @@
                 </p><br>
             </div>
 
-            <div class="slideshow-container">
-                <div class="mySlides2">
-                    <img src="images/movies/filmes1.png" style="width:100%">
-                </div>
-
-                <a class="prev" onclick="plusSlides(-1, 1)">&#10094;</a>
-                <a class="next" onclick="plusSlides(1, 1)">&#10095;</a>
-            </div>
             <br>
             <div class="slideshow-containerr">
-
                 <p class="recuo">
                     A NS terá como um propósito de trazer o universo Geek(nerd) para a vida das pessoas
                     Queremos tornar este universo acessivel para todos de um modo fácil e funcional.
@@ -209,7 +198,7 @@
             x[slideIndex[no] - 1].style.display = "block";
         }
 
-        /*automatic*/
+        
         var slideIndexx = 0;
         showSlidess();
 
@@ -237,6 +226,7 @@
             All Rights Reserved © 2020 | <a href="">Privacy Policy</a> | <a href="">Terms of Service</a>
         </div>
     </footer>
+    
 </body>
 
 </html>
