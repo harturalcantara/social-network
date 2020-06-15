@@ -42,15 +42,9 @@
 
             <div class="search-container">
 
-                <!--  
-                                    <a href="buscarPostagem.html">Pesquisar</a>-->
+                <!-- <a href="buscarPostagem.html">Pesquisar</a>-->
                 <input type="text" v-model="name" placeholder="Pesquisar assunto..." name="search">
-                <!-- {{name}} -->
-
                 <button @click="persist"><i class="fa fa-search"></i></button>
-
-
-
             </div>
         </div>
 
@@ -63,21 +57,6 @@
             <center> <b style="font-size:50px"> Resultado da busca por: {{name}} </b> </center> <br>
             <br>
             <br>
-
-
-            <!--  
-                <input type="text" placeholder="Search.." name="search" v-model="name">
-                {{name}}
-                <button type="submit" @click="submit()"> aaaa</button>
-                   
-
-
-            Resultado de sua busca:
-            <ul>
-                <li v-for="user in postagens">
-                    {{user.topico}}
-                </li>
-            </ul> -->
 
             <div class="divScroll">
 
@@ -92,9 +71,6 @@
                                         <a class="button button1" :href="'post-edit.html?id='+top.id">Gerenciar
                                             Dados</a>
                                     </div>
-
-
-
 
                                     <img :src="'uploads/'+top.id+'?'+new Date().getTime()" width="1000" height="500"
                                         style="margin-bottom: -50px; margin-left: 40px; margin-top: 30px; border-radius: 5px;">
@@ -167,11 +143,6 @@
                     if (localStorage.name == '')
                         alert('Digite um assunto que deseja buscar!')
                     else {
-
-
-
-                        //localStorage.age = this.age;
-
                         console.log('Agora finja que fiz mais coisas...');
                         window.location.replace("buscarPostagem.html");
                     }
