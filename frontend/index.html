@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
     <title> Social Network </title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/estilos.css">
@@ -31,27 +32,25 @@
         </div>
 
         <div class="topnav">
-            <a class="active" href="index.html">Home</a>
+            <a class="active" href="index.html"> Home </a>
             <a v-if="flagSair" href="catAnimes.html" class="nav-link">Animes</a>
             <a v-if="flagSair" href="catSeries.html" class="nav-link">Séries</a>
             <a v-if="flagSair" href="catFilmes.html" class="nav-link">Filmes</a>
-            <a v-if="flagSair" href="catGames.html" class="nav-link">Games</a>
-            <a v-if="flagSair" href="catModaGeek.html" class="nav-link">Moda Geek</a>
-            <a v-if="flagSair" href="catNoticias.html" class="nav-link">Noticias</a>
-            <a v-if="flagSair" href="catTecnologias.html" class="nav-link">Tecnologias</a>
             <a v-if="flagSair" href="catWorldGraphsGeek.html" class="nav-link">WorldGraphsGeek</a>
             <a v-if="flagSair" href="user-list.html" class="nav-link">Pessoas</a>
+
             <div v-if="flagSair" class="search-container">
                 <input type="text" v-model="name" placeholder="Pesquisar assunto..." name="search">
                 <button @click="persist()"><i class="fa fa-search"></i></button>
             </div>
+
         </div>
     </div>
 
     <div class=estrutura>
         <div class="slideshow-containerr">
             <br>
-            <h1>Welcome to Social Network</h1>
+            <h1> Welcome to Social Network </h1>
             <hr>
             <h4>Description</h4>
             <p class="recuo">
