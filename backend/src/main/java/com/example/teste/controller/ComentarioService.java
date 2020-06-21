@@ -9,20 +9,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-//import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.teste.model.Comentario;
 import com.example.teste.repository.ComentarioRepository;
-import com.example.teste.util.Upload;
+
  
+@CrossOrigin
 @RestController
 @RequestMapping(path = "/api/coments")
-@CrossOrigin
 public class ComentarioService {
  
     @Autowired
@@ -30,11 +29,12 @@ public class ComentarioService {
  
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<Comentario>> getComentarios() {
+    	System.out.println("oi bom");
         return new ResponseEntity<List<Comentario>>(comts.findAll(), HttpStatus.OK);
         //return new ResponseEntity<List<Curso>>(cursos.findAll(new Sort(Sort.Direction.ASC, "id")), HttpStatus.OK);
     }
     
-    
+    /*
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
     public ResponseEntity<Comentario> getComent(@PathVariable("id") Integer id) {
         Optional<Comentario> comt = comts.findById(id);
@@ -55,18 +55,21 @@ public class ComentarioService {
         if (post != null) {
             return new ResponseEntity<Comentario>(post, HttpStatus.OK);
         } else {
+        		System.out.println("error!");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-    }
+    }*/
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Comentario> addComentario(Integer idautor, Integer idtopico, String texto, MultipartFile image) {
-    	System.out.println("comentario-POST");
+    public ResponseEntity<Comentario> addComentario(@RequestBody Integer idautor, Integer idtopico, String texto) {
+    	
+    	
         if (texto == null || texto.equals("null")) {
         	System.out.println("ComentarioService - Não preencheu tds os campos!");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        System.out.println("oi bom");
+        
+        
         Comentario comt = new Comentario(null, idautor, idtopico, texto);
         
         Comentario cursoAux = comts.save(comt);
@@ -82,11 +85,11 @@ public class ComentarioService {
     
     @RequestMapping(value = "{id}", method = RequestMethod.PUT)
     public ResponseEntity<Comentario> atualizarComentario(@PathVariable("id") int id, String texto, MultipartFile image) {
-    	System.out.println("CHEGUEEIII");
+    	
     	if (texto == null || texto.equals("null") ) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        System.out.println("CHEGUEEIII");
+        
         Optional<Comentario> comt = comts.findById(id);
  
         if (comt.isPresent()) {
