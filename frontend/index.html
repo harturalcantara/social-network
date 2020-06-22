@@ -34,7 +34,6 @@
         <div class="topnav">
             <a class="active" href="index.html"> Home </a>
             <a v-if="flagSair" href="catAnimes.html" class="nav-link">Animes</a>
-            <a v-if="flagSair" href="catSeries.html" class="nav-link">Séries</a>
             <a v-if="flagSair" href="catFilmes.html" class="nav-link">Filmes</a>
             <a v-if="flagSair" href="catWorldGraphsGeek.html" class="nav-link">WorldGraphsGeek</a>
             <a v-if="flagSair" href="user-list.html" class="nav-link">Pessoas</a>
@@ -128,8 +127,8 @@
             data: {
                 url: "http://localhost:8080/api/users",
                 usuarios: [],
-                flagSair: false,
-                flagLogin: true,
+                flagSair: true,
+                flagLogin: false,
                 name: null,
                 teste: null
             },
